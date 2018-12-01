@@ -3,15 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Point : MonoBehaviour
-{
+{ 
+    public enum StickyState
+    {
+        None, 
+        Wall,
+        Blobls
+    }
+
     public Vector3 position;
     public Vector3 velocity;
     public Vector3 force;
     public float mass = 1f;
-    public bool stationary;
+    public StickyState state; // when sticking a selected blobl to a wall
+    public bool unmovable; // when selecting another blobl to move
     public bool lockZAxis = true;
     public Rigidbody rb;
-
+    public bool StickToWall;
     private Vector3 tempPos;
     private Vector3 tempVel;
 
@@ -25,11 +33,28 @@ public class Point : MonoBehaviour
             throw new System.InvalidOperationException("Mass has to be greater than 0!");
     }
 
+    //WallStick Possible?
+
+    private void OnTriggerEnter(Collider collision)
+    {
+            StickToWall = true;
+        Debug.Log("Stick");
+    }
+
+    private void OnTriggerExit(Collider collision)
+    {
+        StickToWall = false;
+        
+    }
+
+    //=======================
+
     public void MidpointAdvect_1()
     {
-        if (stationary)
+        if (state == StickyState.Wall || unmovable)
         {
             rb.velocity = Vector3.zero;
+            rb.position = new Vector3(rb.position.x, rb.position.y, 0f);
             return;
         }
         // calculate posAfterHalfStep = x(t) + h/2 * v(t, x(t))
@@ -50,9 +75,10 @@ public class Point : MonoBehaviour
 
     public void MidpointAdvect_2()
     {
-        if (stationary)
+        if (state == StickyState.Wall || unmovable)
         {
             rb.velocity = Vector3.zero;
+            rb.position = new Vector3(rb.position.x, rb.position.y, 0f);
             return;
         }
         else
