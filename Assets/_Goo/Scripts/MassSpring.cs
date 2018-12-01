@@ -45,11 +45,14 @@ public class MassSpring : MonoBehaviour
         for (int i = 0; i < points.Count; i++)
         {
             points[i].MidpointAdvect_1();
+            points[i].force += Physics.gravity * mass;
         }
         AddSpringForces();
         for (int i = 0; i < points.Count; i++)
         {
             points[i].MidpointAdvect_2();
+            points[i].force += Physics.gravity * mass;
+
         }
     }
 
@@ -130,8 +133,10 @@ public class MassSpring : MonoBehaviour
         }
         else if (state == Point.StickyState.None){
             int index = sticky.IndexOf(blobl.GetComponent<Point>());
-            blobl.GetComponent<Point>().state = Point.StickyState.None;
-            sticky.RemoveAt(index);
+            if(index>-1){
+                blobl.GetComponent<Point>().state = Point.StickyState.None;
+                sticky.RemoveAt(index);
+            }
         }
     
     }
