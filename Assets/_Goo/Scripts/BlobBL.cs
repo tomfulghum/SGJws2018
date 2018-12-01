@@ -36,4 +36,13 @@ public class BlobBL : MonoBehaviour
         massSprings[arrayCount] = newBlob;
         arrayCount++;
     }
+
+    public void Merge()
+    {
+        if (arrayCount > 1)
+        {
+            massSprings[0].Merge(massSprings[1]);
+            arrayCount--;
+        }
+    }
 }

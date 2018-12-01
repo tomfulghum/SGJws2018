@@ -6,6 +6,8 @@ public class MassSpring : MonoBehaviour
 {
     public delegate void SplitBlob(MassSpring ms);
     public static event SplitBlob OnSplit;
+    public delegate void MergeBlob(MassSpring ms);
+    public static event MergeBlob OnMerge;
 
     public float damping;
     public float mass;
@@ -92,21 +94,19 @@ public class MassSpring : MonoBehaviour
         }
     }
 
-    // called when blobl should stick to wall
-    public void StickToWall(GameObject blobl)
+    // called when blobl should be stuck to or removed from wall 
+    public void SetStickyState(GameObject blobl, Point.StickyState state)
     {
-        points[points.IndexOf(blobl.GetComponent<Point>())].state = Point.StickyState.Wall;
+        points[points.IndexOf(blobl.GetComponent<Point>())].state = state;
     }
 
-    // unstick of blobl or wall
-    public void Unstick(GameObject blobl)
+    public void Merge(MassSpring massSpring)
     {
-        points[points.IndexOf(blobl.GetComponent<Point>())].state = Point.StickyState.None;
-    }
-
-    public void Merge()
-    {
-
+        for (int i = 0; i < massSpring.points.Count; i++)
+        {
+            this.AddBlobl(massSpring.points[i].transform, this.transform);
+        }
+        Destroy(massSpring.gameObject);
     }
 
     public void ApplyExternalForce(Vector3 force, float duration)
