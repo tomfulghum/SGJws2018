@@ -50,6 +50,8 @@ public class MassSpring : MonoBehaviour
         {
             points[i].MidpointAdvect_1();
             points[i].force += Physics.gravity * mass;
+
+
         }
         AddSpringForces();
         for (int i = 0; i < points.Count; i++)
@@ -84,7 +86,7 @@ public class MassSpring : MonoBehaviour
     }
 
     // move single blobl (simple set position so far)
-    public void MoveBlobl(GameObject blobl, Vector3 targetPosition)
+    public void MoveBlobl(GameObject blobl, Vector3 targetPosition, float speed)
     {
         int idx = 0;
         for (int i = 0; i < points.Count; i++)
@@ -104,9 +106,9 @@ public class MassSpring : MonoBehaviour
         com /= (points.Count - 1);
 
         if (Vector3.Distance(com, targetPosition) < maxMoveDistance)
-            points[idx].transform.position = targetPosition;
+            points[idx].transform.position = Vector3.MoveTowards(points[idx].transform.position,targetPosition, speed*Time.deltaTime);
         else
-            points[idx].transform.position = com + (targetPosition - com).normalized * maxMoveDistance;
+            points[idx].transform.position = Vector3.MoveTowards(points[idx].transform.position, com + (targetPosition - com).normalized * maxMoveDistance, speed*Time.deltaTime);
     }
 
     // unpause static blobls
@@ -252,6 +254,9 @@ public class MassSpring : MonoBehaviour
             points[i].force += (externalForce * points[i].mass);
         }
     }
+    public void ApplyExternalForceOne(GameObject blobl, Vector3 force){
+        blobl.GetComponent<Point>().force += (force * blobl.GetComponent<Point>().mass);
+    }
 
     void AddSpringForces()
     {
@@ -274,5 +279,30 @@ public class MassSpring : MonoBehaviour
             if (forceDuration <= 0)
                 externalForces = false;
         }
+    }
+    public GameObject getOuterBlobl(bool Left){
+        Point result = null;
+
+        if(Left){
+            foreach (Point p in points){
+                if(result==null){
+                    result = p;
+                }
+                else if(p.rb.transform.position.x < result.rb.transform.position.x){
+                    result = p;
+                }
+            }  
+        }
+        else{
+            foreach (Point p in points){
+                if(result==null){
+                    result = p;
+                }
+                else if(p.rb.transform.position.x > result.rb.transform.position.x){
+                    result = p;
+                }
+            }  
+        }
+        return result.transform.gameObject;
     }
 }
