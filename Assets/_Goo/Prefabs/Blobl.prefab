@@ -242,7 +242,8 @@ MonoBehaviour:
   unmovable: 0
   lockZAxis: 1
   rb: {fileID: 0}
-  StickToWall: 0
+  stickToWall: 0
+  stickToBlobl: 0
 --- !u!135 &135250823530183666
 SphereCollider:
   m_ObjectHideFlags: 1

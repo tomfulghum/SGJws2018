@@ -97,18 +97,22 @@ public class MassSpring : MonoBehaviour
             else
                 idx = i;
         }
-        com = Vector3.zero;
-        for (int i = 0; i < points.Count; i++)
-        {
-            if(i!=idx)
-                com += points[i].rb.position;
-        }
-        com /= (points.Count - 1);
-
+        CalcCom(idx);
         if (Vector3.Distance(com, targetPosition) < maxMoveDistance)
             points[idx].transform.position = Vector3.MoveTowards(points[idx].transform.position,targetPosition, speed*Time.deltaTime);
         else
             points[idx].transform.position = Vector3.MoveTowards(points[idx].transform.position, com + (targetPosition - com).normalized * maxMoveDistance, speed*Time.deltaTime);
+    }
+
+    public void CalcCom(int idx = -1)
+    {
+        com = Vector3.zero;
+        for (int i = 0; i < points.Count; i++)
+        {
+            if (idx == -1 || i != idx)
+                com += points[i].rb.position;
+        }
+        com /= (points.Count - 1);
     }
 
     // unpause static blobls

@@ -5,18 +5,19 @@ using UnityEngine;
 public class BlobMovement : MonoBehaviour
 {
     private GameObject blobl = null;  //Attachen zu Blobbls
-
+    private GameObject outerBlobl = null;
     public Vector3 targetPos;
     public float movingDistance = 10;
     private MassSpring currentMassSpring = null;
 
     public float movingSpeed = 6;
 
+    public Vector3 movementForce;
+    private Vector3 currMoveTarget;
 
     void Update()
     {
         RaycastHit hit;
-        GameObject outerBlobl = null;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
         if (Input.GetMouseButton(0))
@@ -62,26 +63,71 @@ public class BlobMovement : MonoBehaviour
         }
         CheckForMerge();
         CheckForSplit();
-        if (currentMassSpring != null && Input.GetKey("a"))
+        /*if (!Input.GetKeyUp("a"))
         {
-            outerBlobl = currentMassSpring.getOuterBlobl(true);
-            currentMassSpring.MoveBlobl(outerBlobl, new Vector3(outerBlobl.GetComponent<Point>().rb.transform.position.x - movingDistance, outerBlobl.GetComponent<Point>().rb.transform.position.y, 0), movingSpeed);
-            currentMassSpring.UnpauseBlobls();
+            if (Input.GetKey("a"))
+            {
+                currentMassSpring.MoveBlobl(outerBlobl, new Vector3(outerBlobl.GetComponent<Point>().rb.transform.position.x - movingDistance, outerBlobl.GetComponent<Point>().rb.transform.position.y, 0), movingSpeed);
+                currentMassSpring.UnpauseBlobls();
+                outerBlobl.transform.GetChild(0).gameObject.SetActive(false);
+            }
+            if (outerBlobl == null && currentMassSpring != null)
+            {
+                outerBlobl = currentMassSpring.getOuterBlobl(true);
+                currentMassSpring.UnpauseBlobls();
+                outerBlobl.transform.GetChild(0).gameObject.SetActive(false);
 
+            }
         }
         else if (outerBlobl != null && currentMassSpring != null && Input.GetKeyUp("a"))
         {
+            currentMassSpring.UnpauseBlobls();
+            outerBlobl.transform.GetChild(0).gameObject.SetActive(true);
+            outerBlobl = null;
         }
-        if (currentMassSpring != null && Input.GetKey("d"))
+        if (Input.GetKey("d"))
+        {
+            currentMassSpring.MoveBlobl(outerBlobl, new Vector3(outerBlobl.GetComponent<Point>().rb.transform.position.x + movingDistance, outerBlobl.GetComponent<Point>().rb.transform.position.y, 0), movingSpeed);
+            currentMassSpring.UnpauseBlobls(); outerBlobl.transform.GetChild(0).gameObject.SetActive(false);
+        }
+        if (outerBlobl == null && currentMassSpring != null && Input.GetKey("d"))
         {
             outerBlobl = currentMassSpring.getOuterBlobl(false);
-            currentMassSpring.MoveBlobl(outerBlobl, new Vector3(outerBlobl.GetComponent<Point>().rb.transform.position.x + movingDistance, outerBlobl.GetComponent<Point>().rb.transform.position.y, 0), movingSpeed);
             currentMassSpring.UnpauseBlobls();
+            outerBlobl.transform.GetChild(0).gameObject.SetActive(false);
         }
         else if (outerBlobl != null && currentMassSpring != null && Input.GetKeyUp("d"))
         {
+            currentMassSpring.UnpauseBlobls();
+            outerBlobl.transform.GetChild(0).gameObject.SetActive(true);
+            outerBlobl = null;
+        }*/
+        Movement();
+    }
 
+    void Movement()
+    {
+        if (currentMassSpring == null)
+            return;
+        if (Input.GetKey("a"))
+        {
+            for (int i = 0; i < currentMassSpring.points.Count; i++)
+            {
+                if (currentMassSpring.points[i].transform.position.x < currentMassSpring.com.x)
+                    currentMassSpring.points[i].rb.AddForce(-movementForce);
+            }
         }
+        if (Input.GetKey("d"))
+        {
+            for (int i = 0; i < currentMassSpring.points.Count; i++)
+            {
+                if (currentMassSpring.points[i].transform.position.x > currentMassSpring.com.x)
+                {
+                    currentMassSpring.points[i].rb.AddForce(movementForce);
+                }
+            }
+        }
+        currentMassSpring.CalcCom();
     }
 
     void CheckForMerge()
@@ -107,7 +153,7 @@ public class BlobMovement : MonoBehaviour
     {
         if (Input.GetKeyDown("w"))
         {
-            if(currentMassSpring != null)
+            if (currentMassSpring != null)
                 currentMassSpring.Split();
         }
     }
