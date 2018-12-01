@@ -125,7 +125,7 @@ public class BlobMovement : MonoBehaviour
                 float hypotenuse = Mathf.Sqrt(diffX * diffX + diffZ * diffZ);
                 Vector3 tmpForce = new Vector3(-diffZ / hypotenuse, diffX / hypotenuse, 0f) * 50f;
                 print(tmpForce);*/
-                //if (currentMassSpring.points[i].transform.position.x <= currentMassSpring.com.x)
+                if (currentMassSpring.points[i].transform.position.x <= currentMassSpring.com.x)
                     currentMassSpring.points[i].rb.AddForce( new Vector3(-movementForce.x, movementForce.y, 0)); //new Vector3(-movementForce.x, movementForce.y, 0));
             }
         }

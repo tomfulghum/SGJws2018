@@ -29,6 +29,8 @@ public class MassSpring : MonoBehaviour
     private Vector3 externalForce;
     private float forceDuration;
 
+    private bool forceDir;
+
     private List<Point> sticky;
 
     // Use this for initialization
@@ -79,9 +81,12 @@ public class MassSpring : MonoBehaviour
             newBlob.GetComponent<MassSpring>().AddBlobl(points[i].transform);
             this.RemoveBlobl(points[i]);
         }
-        externalForce = new Vector3(100, 100, 0);
+        if (forceDir)
+            externalForce = new Vector3(100, 100, 0);
+        else
+            externalForce = new Vector3(-100, 100, 0);
         externalForces = true;
-        forceDuration = 0.75f;
+        forceDuration = 1.0f;
         OnSplit(newBlob.GetComponent<MassSpring>());
     }
 
@@ -102,6 +107,10 @@ public class MassSpring : MonoBehaviour
             points[idx].transform.position = Vector3.MoveTowards(points[idx].transform.position,targetPosition, speed*Time.deltaTime);
         else
             points[idx].transform.position = Vector3.MoveTowards(points[idx].transform.position, com + (targetPosition - com).normalized * maxMoveDistance, speed*Time.deltaTime);
+        if (targetPosition.x > com.x)
+            forceDir = true;
+        else
+            forceDir = false;
     }
 
     public void CalcCom(int idx = -1)
