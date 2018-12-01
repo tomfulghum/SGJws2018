@@ -6,9 +6,9 @@ Material:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: SlimeBase
-  m_Shader: {fileID: 4800000, guid: 016436bd26943fd4a84ad1bd5df8c41e, type: 3}
-  m_ShaderKeywords: ETC1_EXTERNAL_ALPHA
+  m_Name: m_Particle03
+  m_Shader: {fileID: 200, guid: 0000000000000000f000000000000000, type: 0}
+  m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -18,14 +18,6 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - Texture2D_5B9EFA5E:
-        m_Texture: {fileID: 2800000, guid: db9c82e9dcb08ca4e85160fc8e061e0b, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - Texture2D_A1C41ECC:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - _BumpMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -47,7 +39,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: db9c82e9dcb08ca4e85160fc8e061e0b, type: 3}
+        m_Texture: {fileID: 2800000, guid: 1247994c3009b4542b0ab4187aa5ab80, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -62,27 +54,11 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _SampleTexture2D_AFBD17C8_Texture:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _Texture2DAsset_A5A8ACA0_Out:
-        m_Texture: {fileID: 2800000, guid: db9c82e9dcb08ca4e85160fc8e061e0b, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _Vector1:
-        m_Texture: {fileID: 2800000, guid: db9c82e9dcb08ca4e85160fc8e061e0b, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     m_Floats:
-    - Vector1_401C7EF5: 1.08
-    - Vector1_644C70F7: 0.38
-    - Vector1_750E75F7: 0
-    - Vector1_9647B721: 0
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
@@ -93,6 +69,7 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
+    - _InvFade: 1
     - _Metallic: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
@@ -104,10 +81,7 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - Color_8344B92D: {r: 0.4745098, g: 0.8823529, b: 0.7072577, a: 0}
-    - Color_CA3CFF14: {r: 0.6886792, g: 0.30210927, b: 0.30210927, a: 1}
-    - Color_D7E4C7C9: {r: 0.49056602, g: 0.108757555, b: 0.14197922, a: 1}
-    - Color_F336CCB8: {r: 0.3584906, g: 0.09976861, b: 0.1245158, a: 0}
     - _Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
+    - _TintColor: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
