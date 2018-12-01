@@ -9,12 +9,6 @@ public class CubeMovingTest : MonoBehaviour
 
     public Vector3 targetPos;
 
-
-    void Start()
-    {
-        targetPos = transform.position;
-    }
-
     void Update()
     {
         RaycastHit hit;
