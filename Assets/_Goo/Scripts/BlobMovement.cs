@@ -19,7 +19,6 @@ public class BlobMovement : MonoBehaviour
         GameObject outerBlobl = null;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-
         if (Input.GetMouseButton(0))
         {
 
@@ -27,7 +26,7 @@ public class BlobMovement : MonoBehaviour
             {
 
                 //transform.position = targetPos;
-                if (hit.transform.gameObject.GetComponent<Point>() != null && blobl==null)
+                if (hit.transform.gameObject.GetComponent<Point>() != null && blobl == null)
                 {
                     blobl = hit.transform.gameObject;
                     currentMassSpring = blobl.transform.parent.GetComponent<MassSpring>();
@@ -45,37 +44,43 @@ public class BlobMovement : MonoBehaviour
             currentMassSpring.UnpauseBlobls();
             blobl = null;
         }
-        if (blobl != null && blobl.GetComponent<Point>().stickToWall) {
+        if (blobl != null && blobl.GetComponent<Point>().stickToWall)
+        {
             if (Input.GetKeyDown("s"))
             {
-                if(blobl.GetComponent<Point>().state == Point.StickyState.None)
+                if (blobl.GetComponent<Point>().state == Point.StickyState.None)
                 {
-                    currentMassSpring.SetStickyState(blobl,Point.StickyState.Wall);
+                    currentMassSpring.SetStickyState(blobl, Point.StickyState.Wall);
                 }
-                else if(blobl.GetComponent<Point>().state == Point.StickyState.Wall)
+                else if (blobl.GetComponent<Point>().state == Point.StickyState.Wall)
                 {
-                    currentMassSpring.SetStickyState(blobl,Point.StickyState.None);
-                    blobl.transform.parent.GetComponent<MassSpring>().SetStickyState(blobl,Point.StickyState.None);
+                    currentMassSpring.SetStickyState(blobl, Point.StickyState.None);
+                    blobl.transform.parent.GetComponent<MassSpring>().SetStickyState(blobl, Point.StickyState.None);
 
                 }
             }
         }
         CheckForMerge();
-        if (currentMassSpring != null && Input.GetKey("a")){
+        CheckForSplit();
+        if (currentMassSpring != null && Input.GetKey("a"))
+        {
             outerBlobl = currentMassSpring.getOuterBlobl(true);
-            currentMassSpring.MoveBlobl(outerBlobl, new Vector3(outerBlobl.GetComponent<Point>().rb.transform.position.x-movingDistance,outerBlobl.GetComponent<Point>().rb.transform.position.y,0),movingSpeed);
+            currentMassSpring.MoveBlobl(outerBlobl, new Vector3(outerBlobl.GetComponent<Point>().rb.transform.position.x - movingDistance, outerBlobl.GetComponent<Point>().rb.transform.position.y, 0), movingSpeed);
             currentMassSpring.UnpauseBlobls();
 
         }
-        else if(outerBlobl != null && currentMassSpring != null && Input.GetKeyUp("a")){
+        else if (outerBlobl != null && currentMassSpring != null && Input.GetKeyUp("a"))
+        {
         }
-        if (currentMassSpring != null && Input.GetKey("d")){
+        if (currentMassSpring != null && Input.GetKey("d"))
+        {
             outerBlobl = currentMassSpring.getOuterBlobl(false);
-            currentMassSpring.MoveBlobl(outerBlobl, new Vector3(outerBlobl.GetComponent<Point>().rb.transform.position.x+movingDistance,outerBlobl.GetComponent<Point>().rb.transform.position.y,0),movingSpeed);
+            currentMassSpring.MoveBlobl(outerBlobl, new Vector3(outerBlobl.GetComponent<Point>().rb.transform.position.x + movingDistance, outerBlobl.GetComponent<Point>().rb.transform.position.y, 0), movingSpeed);
             currentMassSpring.UnpauseBlobls();
         }
-        else if(outerBlobl != null && currentMassSpring != null && Input.GetKeyUp("d")){
-                
+        else if (outerBlobl != null && currentMassSpring != null && Input.GetKeyUp("d"))
+        {
+
         }
     }
 
@@ -95,6 +100,15 @@ public class BlobMovement : MonoBehaviour
                     }
                 }
             }
+        }
+    }
+
+    void CheckForSplit()
+    {
+        if (Input.GetKeyDown("w"))
+        {
+            if(currentMassSpring != null)
+                currentMassSpring.Split();
         }
     }
 }

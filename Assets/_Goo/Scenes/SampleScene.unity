@@ -783,6 +783,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetPos: {x: 0, y: 0, z: 0}
+  movingDistance: 150
+  movingSpeed: 1000
 --- !u!114 &769415433 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 114387268708567520, guid: e1b61a050579b294381cc89b7ba74f69,

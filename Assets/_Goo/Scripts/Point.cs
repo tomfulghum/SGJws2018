@@ -76,7 +76,7 @@ public class Point : MonoBehaviour
         if (state == StickyState.Wall || unmovable)
         {
             rb.velocity = Vector3.zero;
-            rb.position = new Vector3(rb.position.x, rb.position.y, 0f);
+            rb.MovePosition(new Vector3(rb.position.x, rb.position.y, 0f));
             return;
         }
         // calculate posAfterHalfStep = x(t) + h/2 * v(t, x(t))
@@ -91,7 +91,7 @@ public class Point : MonoBehaviour
         tempVel = rb.velocity;
 
         //	set current pos and vel to temporary values for calculation of forces
-        rb.position = posAfterHalfStep;
+        rb.MovePosition(posAfterHalfStep);
         rb.velocity = velAfterHalfStep;
     }
 
@@ -100,7 +100,7 @@ public class Point : MonoBehaviour
         if (state == StickyState.Wall || unmovable)
         {
             rb.velocity = Vector3.zero;
-            rb.position = new Vector3(rb.position.x, rb.position.y, 0f);
+            rb.MovePosition(new Vector3(rb.position.x, rb.position.y, 0f));
             return;
         }
         else
@@ -114,7 +114,7 @@ public class Point : MonoBehaviour
             //	v(t+h) = v(t) + h*a(t+h/2, xtemp, vtemp)
             rb.velocity = tempVel + Time.fixedDeltaTime * force / mass;
             //	set new pos to stored position x(t+h)
-            rb.position = tempPos;
+            rb.MovePosition(tempPos);
 
             force = Vector3.zero;
         }
