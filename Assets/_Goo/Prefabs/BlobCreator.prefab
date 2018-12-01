@@ -9,58 +9,49 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1366920081142920}
+  m_RootGameObject: {fileID: 1237869653027438}
   m_IsPrefabAsset: 1
---- !u!1 &1366920081142920
+--- !u!1 &1237869653027438
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4310584463068440}
-  - component: {fileID: 114442160831210534}
+  - component: {fileID: 4489223295598454}
+  - component: {fileID: 114387268708567520}
   m_Layer: 0
-  m_Name: Blob
+  m_Name: BlobCreator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4310584463068440
+--- !u!4 &4489223295598454
 Transform:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1366920081142920}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_GameObject: {fileID: 1237869653027438}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114442160831210534
+--- !u!114 &114387268708567520
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1366920081142920}
+  m_GameObject: {fileID: 1237869653027438}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 82de3f408c7be0c449a4f3995063f33b, type: 3}
+  m_Script: {fileID: 11500000, guid: 3dd50de001b9fc940b9790786e7d059c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damping: 0.5
-  mass: 0.1
-  stiffness: 50
-  initalLength: 3
-  prefabBlobl: {fileID: 1626773187584268, guid: 7017ec90fdd63ac4ca5cb2abbd13b9b0,
-    type: 2}
-  prefabBlob: {fileID: 1366920081142920}
-  externalForces: 0
-  lockZAxis: 0
-  points:
+  massSprings:
+  - {fileID: 114442160831210534, guid: acc605eb80ffd7042a885e86cbfe6731, type: 2}
   - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  numBlobls: 8
