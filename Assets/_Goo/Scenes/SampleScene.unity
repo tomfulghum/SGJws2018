@@ -175,7 +175,7 @@ Prefab:
     - target: {fileID: 114387268708567520, guid: e1b61a050579b294381cc89b7ba74f69,
         type: 2}
       propertyPath: numBlobls
-      value: 3
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 114387268708567520, guid: e1b61a050579b294381cc89b7ba74f69,
         type: 2}
@@ -411,6 +411,16 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4310584463068440, guid: acc605eb80ffd7042a885e86cbfe6731, type: 2}
       propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114442160831210534, guid: acc605eb80ffd7042a885e86cbfe6731,
+        type: 2}
+      propertyPath: damping
+      value: 3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114442160831210534, guid: acc605eb80ffd7042a885e86cbfe6731,
+        type: 2}
+      propertyPath: initalLength
       value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []

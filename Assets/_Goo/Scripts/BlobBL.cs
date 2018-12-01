@@ -9,7 +9,8 @@ public class BlobBL : MonoBehaviour
 
     public MassSpring[] massSprings;
     public int numBlobls;
-    private int arrayCount;
+    public int arrayCount;
+    private List<Spring> intermedSprings;
 
     private void Start()
     {
@@ -23,7 +24,9 @@ public class BlobBL : MonoBehaviour
         {
             massSprings[0].AddBlobl(new Vector3(i, i % 2, 0), Quaternion.identity);
         }
+        massSprings[0].indexBL = 0;
         arrayCount = 1;
+        intermedSprings = new List<Spring>();
     }
 
     private void OnEnable()
@@ -34,14 +37,24 @@ public class BlobBL : MonoBehaviour
     private void AddMassSpring(MassSpring newBlob)
     {
         massSprings[arrayCount] = newBlob;
+        massSprings[arrayCount].indexBL = arrayCount;
         arrayCount++;
+    }
+
+    private void RemoveMassSpring(MassSpring toRemove)
+    {
+        massSprings[toRemove.indexBL] = massSprings[arrayCount - 1];
+        if(massSprings[toRemove.indexBL] != null)
+            massSprings[toRemove.indexBL].indexBL = toRemove.indexBL;
     }
 
     public void Merge()
     {
         if (arrayCount > 1)
         {
-            massSprings[0].Merge(massSprings[1]);
+            MassSpring ToMerge = massSprings[1];
+            RemoveMassSpring(ToMerge);
+            massSprings[0].Merge(ToMerge);
             arrayCount--;
         }
     }
