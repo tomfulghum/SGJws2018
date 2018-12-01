@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4310584463068440}
   - component: {fileID: 114442160831210534}
   m_Layer: 0
-  m_Name: SlimeSprings
+  m_Name: GameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

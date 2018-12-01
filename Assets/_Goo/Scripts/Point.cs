@@ -8,7 +8,7 @@ public class Point : MonoBehaviour
     public Vector3 velocity;
     public Vector3 force;
     public float mass = 1f;
-    public bool stationary = false;
+    public bool stationary;
     public bool lockZAxis = true;
     public Rigidbody rb;
 
@@ -24,9 +24,14 @@ public class Point : MonoBehaviour
         if (mass == 0)
             throw new System.InvalidOperationException("Mass has to be greater than 0!");
     }
-    
+
     public void MidpointAdvect_1()
     {
+        if (stationary)
+        {
+            rb.velocity = Vector3.zero;
+            return;
+        }
         // calculate posAfterHalfStep = x(t) + h/2 * v(t, x(t))
         Vector3 posAfterHalfStep = rb.position + (Time.fixedDeltaTime / 2 * rb.velocity);
         // calculate velAfterHalfStep = v(t) + h/2 * a(t, x(t), v(t))
@@ -46,20 +51,24 @@ public class Point : MonoBehaviour
     public void MidpointAdvect_2()
     {
         if (stationary)
-            return;
-
-        if (lockZAxis)
         {
-            tempVel.z = 0;
-            force.z = 0;
-            tempPos.z = 0;
+            rb.velocity = Vector3.zero;
+            return;
         }
-        //	v(t+h) = v(t) + h*a(t+h/2, xtemp, vtemp)
-        rb.velocity = tempVel + Time.fixedDeltaTime * force / mass;
-        rb.position = tempPos;
+        else
+        {
+            if (lockZAxis)
+            {
+                tempVel.z = 0;
+                force.z = 0;
+                tempPos.z = 0;
+            }
+            //	v(t+h) = v(t) + h*a(t+h/2, xtemp, vtemp)
+            rb.velocity = tempVel + Time.fixedDeltaTime * force / mass;
+            //	set new pos to stored position x(t+h)
+            rb.position = tempPos;
 
-        force = Vector3.zero;
-
-        //	set new pos to stored position x(t+h)
+            force = Vector3.zero;
+        }
     }
 }

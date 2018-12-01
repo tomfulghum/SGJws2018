@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Spring {
+public class Spring
+{
 
     public Point p1;
     public Point p2;
