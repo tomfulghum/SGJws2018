@@ -125,7 +125,6 @@ public class MassSpring : MonoBehaviour
     {
         if (state == Point.StickyState.Wall)
         {
-
             if (sticky.Count < 2)
             {
                 sticky.Add(blobl.GetComponent<Point>());
