@@ -19,7 +19,7 @@ public class Point : MonoBehaviour
     public bool unmovable; // when selecting another blobl to move
     public bool lockZAxis = true;
     public Rigidbody rb;
-
+    public bool StickToWall;
     private Vector3 tempPos;
     private Vector3 tempVel;
 
@@ -32,6 +32,22 @@ public class Point : MonoBehaviour
         if (mass == 0)
             throw new System.InvalidOperationException("Mass has to be greater than 0!");
     }
+
+    //WallStick Possible?
+
+    private void OnTriggerEnter(Collider collision)
+    {
+            StickToWall = true;
+        Debug.Log("Stick");
+    }
+
+    private void OnTriggerExit(Collider collision)
+    {
+        StickToWall = false;
+        
+    }
+
+    //=======================
 
     public void MidpointAdvect_1()
     {
