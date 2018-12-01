@@ -10,8 +10,12 @@ public class BlobBL : MonoBehaviour
     public MassSpring[] massSprings;
     public int numBlobls;
     public int arrayCount;
+    
+    // depracated
     private List<Spring> intermedSprings;
 
+    public static BlobBL instance;
+        
     private void Start()
     {
         if (massSprings == null)
@@ -27,6 +31,10 @@ public class BlobBL : MonoBehaviour
         massSprings[0].indexBL = 0;
         arrayCount = 1;
         intermedSprings = new List<Spring>();
+        if (instance == null)
+            instance = this;
+        else
+            throw new System.InvalidOperationException("Only one BlobBL can be activate at a time!");
     }
 
     private void OnEnable()
@@ -48,7 +56,7 @@ public class BlobBL : MonoBehaviour
             massSprings[toRemove.indexBL].indexBL = toRemove.indexBL;
     }
 
-    public void Merge()
+    public void Merge(int idx1,int idx2)
     {
         if (arrayCount > 1)
         {
