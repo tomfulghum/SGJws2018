@@ -124,6 +124,7 @@ public class MassSpring : MonoBehaviour
     public void AddBlobl(Transform transform, Transform parent = null)
     {
         points.Add(GameObject.Instantiate(prefabBlobl, transform).GetComponent<Point>());
+        points[points.Count - 1].mass = mass;
         if (parent != null)
             points[points.Count - 1].transform.parent = parent;
         else
@@ -133,7 +134,8 @@ public class MassSpring : MonoBehaviour
     public void AddBlobl(Vector3 pos, Quaternion quat, Transform parent = null)
     {
         points.Add(GameObject.Instantiate(prefabBlobl, pos, quat).GetComponent<Point>());
-        if(parent != null)
+        points[points.Count - 1].mass = mass;
+        if (parent != null)
             points[points.Count - 1].transform.parent = parent;
         else
             points[points.Count - 1].transform.parent = this.transform;
