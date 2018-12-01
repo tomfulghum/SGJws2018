@@ -413,6 +413,16 @@ Prefab:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 114442160831210534, guid: acc605eb80ffd7042a885e86cbfe6731,
+        type: 2}
+      propertyPath: damping
+      value: 3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114442160831210534, guid: acc605eb80ffd7042a885e86cbfe6731,
+        type: 2}
+      propertyPath: initalLength
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: acc605eb80ffd7042a885e86cbfe6731, type: 2}
   m_IsPrefabAsset: 0
@@ -593,7 +603,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 10
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -777,8 +787,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3f31f2aa0ec24f53b297d8052cd369b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  camera: {fileID: 534669904}
-  blobl: {fileID: 0}
   targetPos: {x: 0, y: 0, z: 0}
 --- !u!114 &769415433 stripped
 MonoBehaviour:

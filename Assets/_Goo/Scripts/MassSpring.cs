@@ -42,16 +42,6 @@ public class MassSpring : MonoBehaviour
         com = new Vector3();
     }
 
-    private void Update()
-    {
-        com = Vector3.zero;
-        for (int i = 0; i < points.Count; i++)
-        {
-            com += points[i].rb.position;
-        }
-        com /= points.Count;
-    }
-
     // force calculation + integration
     private void FixedUpdate()
     {
@@ -89,9 +79,9 @@ public class MassSpring : MonoBehaviour
             newBlob.GetComponent<MassSpring>().AddBlobl(points[i].transform);
             this.RemoveBlobl(points[i]);
         }
-        externalForce = new Vector3(50, 50, 0);
+        externalForce = new Vector3(100, 100, 0);
         externalForces = true;
-        forceDuration = 0.25f;
+        forceDuration = 0.75f;
         OnSplit(newBlob.GetComponent<MassSpring>());
     }
 
@@ -107,6 +97,14 @@ public class MassSpring : MonoBehaviour
             else
                 idx = i;
         }
+        com = Vector3.zero;
+        for (int i = 0; i < points.Count; i++)
+        {
+            if(i!=idx)
+                com += points[i].rb.position;
+        }
+        com /= (points.Count - 1);
+
         if (Vector3.Distance(com, targetPosition) < maxMoveDistance)
             points[idx].transform.position = Vector3.MoveTowards(points[idx].transform.position,targetPosition, speed*Time.deltaTime);
         else
@@ -161,6 +159,10 @@ public class MassSpring : MonoBehaviour
                 blobl.GetComponent<Point>().state = Point.StickyState.None;
                 sticky.RemoveAt(index);
             }
+        }
+        else if(state == Point.StickyState.Blobls)
+        {
+
         }
     }
 

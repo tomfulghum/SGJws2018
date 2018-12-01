@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Point : MonoBehaviour
-{ 
+{
     public enum StickyState
     {
-        None, 
+        None,
         Wall,
         Blobls
     }
@@ -19,7 +19,8 @@ public class Point : MonoBehaviour
     public bool unmovable; // when selecting another blobl to move
     public bool lockZAxis = true;
     public Rigidbody rb;
-    public bool StickToWall;
+    public bool stickToWall;
+    public int stickToBlobl;
     private Vector3 tempPos;
     private Vector3 tempVel;
 
@@ -31,20 +32,43 @@ public class Point : MonoBehaviour
             throw new System.InvalidOperationException("Rigidbody has to be attached to object!");
         if (mass == 0)
             throw new System.InvalidOperationException("Mass has to be greater than 0!");
+        stickToBlobl = -1;
     }
 
     //WallStick Possible?
 
     private void OnTriggerEnter(Collider collision)
     {
-            StickToWall = true;
-        Debug.Log("Stick");
+        stickToWall = true;
     }
 
     private void OnTriggerExit(Collider collision)
     {
-        StickToWall = false;
-        
+        stickToWall = false;
+        if (state != StickyState.Blobls)
+            state = StickyState.None;
+    }
+
+    private void FixedUpdate()
+    {
+        for (int i = 0; i < BlobBL.instance.arrayCount; i++)
+        {
+            MassSpring ms = transform.parent.GetComponent<MassSpring>();
+            if (i != ms.indexBL)
+            {
+                for (int j = 0; j < ms.points.Count; j++)
+                {
+                    if (Vector3.Distance(ms.points[j].rb.position, this.rb.position) < GetComponent<SphereCollider>().radius * 1.5f)
+                    {
+                        stickToBlobl = i;                
+                    }
+                    else
+                    {
+                        stickToBlobl = -1;
+                    }
+                }
+            }
+        }
     }
 
     //=======================
