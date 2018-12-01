@@ -42,16 +42,6 @@ public class MassSpring : MonoBehaviour
         com = new Vector3();
     }
 
-    private void Update()
-    {
-        com = Vector3.zero;
-        for (int i = 0; i < points.Count; i++)
-        {
-            com += points[i].rb.position;
-        }
-        com /= points.Count;
-    }
-
     // force calculation + integration
     private void FixedUpdate()
     {
@@ -105,6 +95,14 @@ public class MassSpring : MonoBehaviour
             else
                 idx = i;
         }
+        com = Vector3.zero;
+        for (int i = 0; i < points.Count; i++)
+        {
+            if(i!=idx)
+                com += points[i].rb.position;
+        }
+        com /= (points.Count - 1);
+
         if (Vector3.Distance(com, targetPosition) < maxMoveDistance)
             points[idx].transform.position = targetPosition;
         else
