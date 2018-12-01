@@ -58,7 +58,6 @@ MonoBehaviour:
   prefabBlobl: {fileID: 1626773187584268, guid: 7017ec90fdd63ac4ca5cb2abbd13b9b0,
     type: 2}
   prefabBlob: {fileID: 1366920081142920}
-  externalForce: {x: 0, y: 0, z: 0}
   externalForces: 0
   lockZAxis: 0
   points: []

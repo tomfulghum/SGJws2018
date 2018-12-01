@@ -21,7 +21,7 @@ public class BlobBL : MonoBehaviour
 
         for (int i = 0; i < numBlobls; i++)
         {
-            massSprings[0].AddBlobl(new Vector3(i, i % 2, 0), Quaternion.identity, this.transform);
+            massSprings[0].AddBlobl(new Vector3(i, i % 2, 0), Quaternion.identity);
         }
         arrayCount = 1;
     }
