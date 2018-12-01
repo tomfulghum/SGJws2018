@@ -56,11 +56,11 @@ public class Point : MonoBehaviour
             MassSpring ms = transform.parent.GetComponent<MassSpring>();
             if (i != ms.indexBL)
             {
-                for (int j = 0; j < ms.points.Count; j++)
+                for (int j = 0; j < BlobBL.instance.massSprings[i].points.Count; j++)
                 {
-                    if (Vector3.Distance(ms.points[j].rb.position, this.rb.position) < GetComponent<SphereCollider>().radius * 1.5f)
+                    if (Vector3.Distance(BlobBL.instance.massSprings[i].points[j].rb.position, this.rb.position) < GetComponent<SphereCollider>().radius * 2.5f)
                     {
-                        stickToBlobl = i;                
+                        stickToBlobl = i;
                     }
                     else
                     {
@@ -70,9 +70,7 @@ public class Point : MonoBehaviour
             }
         }
     }
-
-    //=======================
-
+    
     public void MidpointAdvect_1()
     {
         if (state == StickyState.Wall || unmovable)

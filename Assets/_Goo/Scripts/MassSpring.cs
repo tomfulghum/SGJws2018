@@ -121,7 +121,6 @@ public class MassSpring : MonoBehaviour
     // called when blobl should be stuck to or removed from wall 
     public void SetStickyState(GameObject blobl, Point.StickyState state)
     {
-
         if (state == Point.StickyState.Wall)
         {
 
