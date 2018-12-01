@@ -33,6 +33,7 @@ public class MassSpring : MonoBehaviour
         forceDuration = 0;
     }
 
+    // force calculation + integration
     private void FixedUpdate()
     {
         AddSpringForces();
@@ -49,6 +50,7 @@ public class MassSpring : MonoBehaviour
         }
     }
 
+    // split into two blobs
     public void Split()
     {
         if (points.Count < 5)
@@ -66,26 +68,40 @@ public class MassSpring : MonoBehaviour
         OnSplit(newBlob.GetComponent<MassSpring>());
     }
 
+    // move single blobl (simple set position so far)
     public void MoveBlobl(GameObject blobl, Vector3 targetPosition)
     {
         int idx = 0;
         for (int i = 0; i < points.Count; i++)
         {
+            // set all other blobs to unmovable 
             if (points[i].gameObject != blobl)
                 points[i].unmovable = true;
             else
                 idx = i;
         }
         points[idx].transform.position = targetPosition;
-        points[idx].stationary = true;
     }
 
+    // unpause static blobls
     public void UnpauseBlobls()
     {
         for (int i = 0; i < points.Count; i++)
         {
             points[i].unmovable = false;
         }
+    }
+
+    // called when blobl should stick to wall
+    public void StickToWall(GameObject blobl)
+    {
+        points[points.IndexOf(blobl.GetComponent<Point>())].state = Point.StickyState.Wall;
+    }
+
+    // unstick of blobl or wall
+    public void Unstick(GameObject blobl)
+    {
+        points[points.IndexOf(blobl.GetComponent<Point>())].state = Point.StickyState.None;
     }
 
     public void Merge()

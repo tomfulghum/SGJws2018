@@ -34,5 +34,6 @@ public class BlobBL : MonoBehaviour
     private void AddMassSpring(MassSpring newBlob)
     {
         massSprings[arrayCount] = newBlob;
+        arrayCount++;
     }
 }

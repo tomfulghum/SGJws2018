@@ -3,12 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Point : MonoBehaviour
-{
+{ 
+    public enum StickyState
+    {
+        None, 
+        Wall,
+        Blobls
+    }
+
     public Vector3 position;
     public Vector3 velocity;
     public Vector3 force;
     public float mass = 1f;
-    public bool stationary; // when sticking a selected blobl to a wall
+    public StickyState state; // when sticking a selected blobl to a wall
     public bool unmovable; // when selecting another blobl to move
     public bool lockZAxis = true;
     public Rigidbody rb;
@@ -28,7 +35,7 @@ public class Point : MonoBehaviour
 
     public void MidpointAdvect_1()
     {
-        if (stationary || unmovable)
+        if (state == StickyState.Wall || unmovable)
         {
             rb.velocity = Vector3.zero;
             rb.position = new Vector3(rb.position.x, rb.position.y, 0f);
@@ -52,7 +59,7 @@ public class Point : MonoBehaviour
 
     public void MidpointAdvect_2()
     {
-        if (stationary || unmovable)
+        if (state == StickyState.Wall || unmovable)
         {
             rb.velocity = Vector3.zero;
             rb.position = new Vector3(rb.position.x, rb.position.y, 0f);
