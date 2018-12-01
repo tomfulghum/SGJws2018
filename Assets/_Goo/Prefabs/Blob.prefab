@@ -60,4 +60,7 @@ MonoBehaviour:
   prefabBlob: {fileID: 1366920081142920}
   externalForces: 0
   lockZAxis: 0
-  points: []
+  points:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
