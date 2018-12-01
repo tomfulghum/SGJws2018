@@ -8,6 +8,7 @@ public class BlobMovement : MonoBehaviour
 
     public Vector3 targetPos;
 
+
     void Update()
     {
         RaycastHit hit;
@@ -33,25 +34,43 @@ public class BlobMovement : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButtonUp(0) && blobl!= null)
+        if (Input.GetMouseButtonUp(0) && blobl != null)
         {
             blobl.transform.parent.GetComponent<MassSpring>().UnpauseBlobls();
             blobl = null;
         }
-        if (blobl != null &&blobl.GetComponent<Point>().StickToWall) {
+        if (blobl != null && blobl.GetComponent<Point>().stickToWall)
+        {
             if (Input.GetKeyDown("s"))
             {
-                if(blobl.GetComponent<Point>().state == Point.StickyState.None){
-                    blobl.transform.parent.GetComponent<MassSpring>().SetStickyState(blobl,Point.StickyState.Wall);
+                if (blobl.GetComponent<Point>().state == Point.StickyState.None)
+                {
+                    blobl.transform.parent.GetComponent<MassSpring>().SetStickyState(blobl, Point.StickyState.Wall);
                 }
-                else if(blobl.GetComponent<Point>().state == Point.StickyState.Wall){
-                    blobl.transform.parent.GetComponent<MassSpring>().SetStickyState(blobl,Point.StickyState.None);
+                else if (blobl.GetComponent<Point>().state == Point.StickyState.Wall)
+                {
+                    blobl.transform.parent.GetComponent<MassSpring>().SetStickyState(blobl, Point.StickyState.None);
+                }
+            }
+        }
+        CheckForMerge();
+    }
+
+    void CheckForMerge()
+    {
+        if (Input.GetKeyDown("e"))
+        {
+            for (int i = 0; i < BlobBL.instance.arrayCount; i++)
+            {
+                for (int j = 0; j < BlobBL.instance.massSprings[i].points.Count; j++)
+                {
+                    int k = BlobBL.instance.massSprings[i].points[j].stickToBlobl;
+                    if (k >= 0 && k != i)
+                    {
+                        BlobBL.instance.Merge(i, k);
+                    }
                 }
             }
         }
     }
-
-
-
-
 }
