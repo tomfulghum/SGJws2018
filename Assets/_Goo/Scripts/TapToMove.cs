@@ -53,11 +53,10 @@ public class TapToMove : MonoBehaviour {
     blobl.transform.parent.GetComponent<MassSpring>().SetStickyState(blobl,Point.StickyState.Wall);
   }
   //check if the flag for movement is true and the current gameobject position is not same as the clicked / tapped position
-  if(blobl!=null && flag){ // && !(V3Equal(bobl.transform.position, endPoint))){
+  if(blobl!=null && flag){
    //move the gameobject to the desired position
         Vector3 destination = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         blobl.transform.parent.GetComponent<MassSpring>().MoveBlobl(blobl, new Vector3(destination.x,destination.y,0));
       }
-  //set the movement indicator flag to false if the endPoint and current gameobject position are equal
  }
 }
