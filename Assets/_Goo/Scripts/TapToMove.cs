@@ -50,7 +50,12 @@ public class TapToMove : MonoBehaviour {
   }
   if(Input.GetMouseButtonDown(1))
   {
+    if(blobl.GetComponent<Point>().state == Point.StickyState.None){
     blobl.transform.parent.GetComponent<MassSpring>().SetStickyState(blobl,Point.StickyState.Wall);
+    }
+    else if(blobl.GetComponent<Point>().state == Point.StickyState.Wall){
+          blobl.transform.parent.GetComponent<MassSpring>().SetStickyState(blobl,Point.StickyState.None);
+    }
   }
   //check if the flag for movement is true and the current gameobject position is not same as the clicked / tapped position
   if(blobl!=null && flag){

@@ -26,9 +26,12 @@ public class MassSpring : MonoBehaviour
     private Vector3 externalForce;
     private float forceDuration;
 
+    private List<Point> sticky;
+
     // Use this for initialization
     void Awake()
     {
+        sticky = new List<Point>();
         externalForces = false;
         points = new List<Point>();
         springs = new List<List<Spring>>();
@@ -102,7 +105,37 @@ public class MassSpring : MonoBehaviour
     // called when blobl should be stuck to or removed from wall 
     public void SetStickyState(GameObject blobl, Point.StickyState state)
     {
-        points[points.IndexOf(blobl.GetComponent<Point>())].state = state;
+        
+        if(state == Point.StickyState.Wall){
+
+            if(sticky.Count <2){
+                sticky.Add(blobl.GetComponent<Point>());
+                points[points.IndexOf(blobl.GetComponent<Point>())].state = state;
+            }
+            else{           
+                if(sticky[0] == blobl.GetComponent<Point>())
+                {
+                    sticky[0].state = Point.StickyState.None;
+                    sticky.RemoveAt(0);
+                    sticky.Add(blobl.GetComponent<Point>());
+                    points[points.IndexOf(blobl.GetComponent<Point>())].state = state;
+                }
+                else if(sticky[1] != blobl.GetComponent<Point>())
+                {
+                    sticky[0].state = Point.StickyState.None;
+                    sticky.RemoveAt(0);
+                    sticky.Add(blobl.GetComponent<Point>());
+                    points[points.IndexOf(blobl.GetComponent<Point>())].state = state;
+                }           
+                
+        }
+        }
+        else if (state == Point.StickyState.None){
+            int index = sticky.IndexOf(blobl.GetComponent<Point>());
+            blobl.GetComponent<Point>().state = Point.StickyState.None;
+            sticky.RemoveAt(index);
+        }
+    
     }
 
     public void Merge(MassSpring massSpring)
