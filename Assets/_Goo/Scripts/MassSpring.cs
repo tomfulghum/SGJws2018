@@ -45,13 +45,11 @@ public class MassSpring : MonoBehaviour
         for (int i = 0; i < points.Count; i++)
         {
             points[i].MidpointAdvect_1();
-            points[i].force += Physics.gravity;
         }
         AddSpringForces();
         for (int i = 0; i < points.Count; i++)
         {
             points[i].MidpointAdvect_2();
-            points[i].force += Physics.gravity;
         }
     }
 
