@@ -42,7 +42,12 @@ public class BlobMovement : MonoBehaviour
         if (blobl != null &&blobl.GetComponent<Point>().StickToWall) {
             if (Input.GetKeyDown("s"))
             {
-                blobl.transform.parent.GetComponent<MassSpring>().SetStickyState(blobl, Point.StickyState.Wall);
+                if(blobl.GetComponent<Point>().state == Point.StickyState.None){
+                    blobl.transform.parent.GetComponent<MassSpring>().SetStickyState(blobl,Point.StickyState.Wall);
+                }
+                else if(blobl.GetComponent<Point>().state == Point.StickyState.Wall){
+                    blobl.transform.parent.GetComponent<MassSpring>().SetStickyState(blobl,Point.StickyState.None);
+                }
             }
         }
     }
