@@ -29,6 +29,8 @@ public class BlobBL : MonoBehaviour
             massSprings[0].AddBlobl(new Vector3(i, i % 2, 0), Quaternion.identity);
         }
         massSprings[0].indexBL = 0;
+        BlobMovement movement = gameObject.GetComponent<BlobMovement>();
+        movement.setCurrentMassSpring(massSprings[0]);
         arrayCount = 1;
         intermedSprings = new List<Spring>();
         if (instance == null)

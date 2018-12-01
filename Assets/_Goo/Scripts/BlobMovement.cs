@@ -15,9 +15,13 @@ public class BlobMovement : MonoBehaviour
     public Vector3 movementForce;
     private Vector3 currMoveTarget;
 
+    public void setCurrentMassSpring(MassSpring ms){
+        currentMassSpring = ms;
+    }
     void Update()
     {
         RaycastHit hit;
+        
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
         if (Input.GetMouseButton(0))
