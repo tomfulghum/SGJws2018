@@ -19,6 +19,9 @@ public class MassSpring : MonoBehaviour
     public bool externalForces;
     public bool lockZAxis;
     public List<Point> points;
+    public int indexBL;
+    public Vector3 com;
+    public float maxMoveDistance;
 
     public const float FLT_EPSILON = 0.000001f;
 
@@ -36,6 +39,17 @@ public class MassSpring : MonoBehaviour
         points = new List<Point>();
         springs = new List<List<Spring>>();
         forceDuration = 0;
+        com = new Vector3();
+    }
+
+    private void Update()
+    {
+        com = Vector3.zero;
+        for (int i = 0; i < points.Count; i++)
+        {
+            com += points[i].rb.position;
+        }
+        com /= points.Count;
     }
 
     // force calculation + integration
@@ -63,9 +77,9 @@ public class MassSpring : MonoBehaviour
             throw new System.InvalidOperationException("Blob has to have at least 5 blobls");
         int subValue = Mathf.FloorToInt(points.Count / 2f);
         GameObject newBlob = GameObject.Instantiate(prefabBlob);
-        for (int i = newBlob.transform.childCount-1; i >= 0; i--)
+        for (int i = newBlob.transform.childCount - 1; i >= 0; i--)
         {
-            
+
             Destroy(newBlob.transform.GetChild(i).gameObject);
         }
         for (int i = 0; i < subValue; i++)
@@ -91,7 +105,10 @@ public class MassSpring : MonoBehaviour
             else
                 idx = i;
         }
-        points[idx].transform.position = targetPosition;
+        if (Vector3.Distance(com, targetPosition) < maxMoveDistance)
+            points[idx].transform.position = targetPosition;
+        else
+            points[idx].transform.position = com + (targetPosition - com).normalized * maxMoveDistance;
     }
 
     // unpause static blobls
@@ -106,39 +123,43 @@ public class MassSpring : MonoBehaviour
     // called when blobl should be stuck to or removed from wall 
     public void SetStickyState(GameObject blobl, Point.StickyState state)
     {
-        
-        if(state == Point.StickyState.Wall){
 
-            if(sticky.Count <2){
+        if (state == Point.StickyState.Wall)
+        {
+
+            if (sticky.Count < 2)
+            {
                 sticky.Add(blobl.GetComponent<Point>());
                 points[points.IndexOf(blobl.GetComponent<Point>())].state = state;
             }
-            else{           
-                if(sticky[0] == blobl.GetComponent<Point>())
+            else
+            {
+                if (sticky[0] == blobl.GetComponent<Point>())
                 {
                     sticky[0].state = Point.StickyState.None;
                     sticky.RemoveAt(0);
                     sticky.Add(blobl.GetComponent<Point>());
                     points[points.IndexOf(blobl.GetComponent<Point>())].state = state;
                 }
-                else if(sticky[1] != blobl.GetComponent<Point>())
+                else if (sticky[1] != blobl.GetComponent<Point>())
                 {
                     sticky[0].state = Point.StickyState.None;
                     sticky.RemoveAt(0);
                     sticky.Add(blobl.GetComponent<Point>());
                     points[points.IndexOf(blobl.GetComponent<Point>())].state = state;
-                }           
-                
+                }
+
+            }
         }
-        }
-        else if (state == Point.StickyState.None){
+        else if (state == Point.StickyState.None)
+        {
             int index = sticky.IndexOf(blobl.GetComponent<Point>());
-            if(index>-1){
+            if (index > -1)
+            {
                 blobl.GetComponent<Point>().state = Point.StickyState.None;
                 sticky.RemoveAt(index);
             }
         }
-    
     }
 
     public void Merge(MassSpring massSpring)
