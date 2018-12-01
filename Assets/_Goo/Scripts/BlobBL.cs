@@ -1,26 +1,38 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class BlobBL : MonoBehaviour
 {
 
-    public MassSpring massSpring;
+    public MassSpring[] massSprings;
     public int numBlobls;
+    private int arrayCount;
+
     private void Start()
     {
-        if (massSpring == null)
+        if (massSprings == null)
             throw new System.InvalidOperationException("MassSpring reference has to be set!");
+
+        if (massSprings.Length == 0)
+            throw new System.InvalidOperationException("Array size has to be larger than 0.");
 
         for (int i = 0; i < numBlobls; i++)
         {
-            massSpring.AddBlobl(new Vector3(i, i % 2, 0), Quaternion.identity, this.transform);
+            massSprings[0].AddBlobl(new Vector3(i, i % 2, 0), Quaternion.identity, this.transform);
         }
+        arrayCount = 1;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnEnable()
     {
+        MassSpring.OnSplit += AddMassSpring;
+    }
 
+    private void AddMassSpring(MassSpring newBlob)
+    {
+        massSprings[arrayCount] = newBlob;
     }
 }

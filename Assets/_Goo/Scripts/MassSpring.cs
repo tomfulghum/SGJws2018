@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class MassSpring : MonoBehaviour
 {
+    public delegate void SplitBlob(MassSpring ms);
+    public static event SplitBlob OnSplit;
+
     public float damping;
     public float mass;
     public float stiffness;
@@ -11,7 +14,6 @@ public class MassSpring : MonoBehaviour
 
     public GameObject prefabBlobl;
     public GameObject prefabBlob;
-    public Vector3 externalForce;
     public bool externalForces;
     public bool lockZAxis;
     public List<Point> points;
@@ -19,6 +21,8 @@ public class MassSpring : MonoBehaviour
     public const float FLT_EPSILON = 0.000001f;
 
     private List<List<Spring>> springs;
+    private Vector3 externalForce;
+    private float forceDuration;
 
     // Use this for initialization
     void Awake()
@@ -26,6 +30,7 @@ public class MassSpring : MonoBehaviour
         externalForces = false;
         points = new List<Point>();
         springs = new List<List<Spring>>();
+        forceDuration = 0;
     }
 
     private void FixedUpdate()
@@ -55,7 +60,10 @@ public class MassSpring : MonoBehaviour
             newBlob.GetComponent<MassSpring>().AddBlobl(points[i].transform, newBlob.transform);
             this.RemoveBlobl(points[i]);
         }
-        //return newBlob.GetComponent<MassSpring>();
+        externalForce = new Vector3(50, 50, 0);
+        externalForces = true;
+        forceDuration = 0.25f;
+        OnSplit(newBlob.GetComponent<MassSpring>());
     }
 
     public void MoveBlobl(GameObject blobl, Vector3 targetPosition)
@@ -83,6 +91,13 @@ public class MassSpring : MonoBehaviour
     public void Merge()
     {
 
+    }
+
+    public void ApplyExternalForce(Vector3 force, float duration)
+    {
+        externalForce = force;
+        externalForces = true;
+        forceDuration = duration;
     }
 
     public void AddBlobl(Transform transform, Transform parent)
@@ -165,7 +180,12 @@ public class MassSpring : MonoBehaviour
         AddDamping();
 
         //	apply external forces
-        if (externalForces)
-            ApplyExternalForceAll(Physics.gravity);
+        if (externalForces && forceDuration > 0)
+        {
+            forceDuration -= Time.fixedDeltaTime;
+            ApplyExternalForceAll(externalForce);
+            if (forceDuration <= 0)
+                externalForces = false;
+        }
     }
 }
