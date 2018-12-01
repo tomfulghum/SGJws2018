@@ -4,15 +4,14 @@ using UnityEngine;
 
 public class BlobMovement : MonoBehaviour
 {
-    public new Camera camera;
-    public GameObject blobl;  //Attachen zu Blobbls
+    private GameObject blobl;  //Attachen zu Blobbls
 
     public Vector3 targetPos;
 
     void Update()
     {
         RaycastHit hit;
-        Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
 
         if (Input.GetMouseButton(0))
@@ -29,7 +28,7 @@ public class BlobMovement : MonoBehaviour
             }
             if (blobl != null)
             {
-                targetPos = camera.ScreenToWorldPoint(Input.mousePosition, 0);
+                targetPos = Camera.main.ScreenToWorldPoint(Input.mousePosition, 0);
                 blobl.transform.parent.GetComponent<MassSpring>().MoveBlobl(blobl, targetPos);
             }
         }
@@ -42,7 +41,12 @@ public class BlobMovement : MonoBehaviour
         if (blobl != null &&blobl.GetComponent<Point>().StickToWall) {
             if (Input.GetKeyDown("s"))
             {
-                blobl.transform.parent.GetComponent<MassSpring>().SetStickyState(blobl, Point.StickyState.Wall);
+                if(blobl.GetComponent<Point>().state == Point.StickyState.None){
+                    blobl.transform.parent.GetComponent<MassSpring>().SetStickyState(blobl,Point.StickyState.Wall);
+                }
+                else if(blobl.GetComponent<Point>().state == Point.StickyState.Wall){
+                    blobl.transform.parent.GetComponent<MassSpring>().SetStickyState(blobl,Point.StickyState.None);
+                }
             }
         }
     }

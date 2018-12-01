@@ -123,7 +123,7 @@ Prefab:
     - target: {fileID: 114387268708567520, guid: e1b61a050579b294381cc89b7ba74f69,
         type: 2}
       propertyPath: massSprings.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4489223295598454, guid: e1b61a050579b294381cc89b7ba74f69, type: 2}
       propertyPath: m_LocalPosition.x
@@ -170,6 +170,16 @@ Prefab:
     - target: {fileID: 114387268708567520, guid: e1b61a050579b294381cc89b7ba74f69,
         type: 2}
       propertyPath: massSprings.Array.data[1]
+      value: 
+      objectReference: {fileID: 235757172}
+    - target: {fileID: 114387268708567520, guid: e1b61a050579b294381cc89b7ba74f69,
+        type: 2}
+      propertyPath: numBlobls
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 114387268708567520, guid: e1b61a050579b294381cc89b7ba74f69,
+        type: 2}
+      propertyPath: massSprings.Array.data[2]
       value: 
       objectReference: {fileID: 235757172}
     m_RemovedComponents: []
@@ -377,7 +387,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4310584463068440, guid: acc605eb80ffd7042a885e86cbfe6731, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 2.35
       objectReference: {fileID: 0}
     - target: {fileID: 4310584463068440, guid: acc605eb80ffd7042a885e86cbfe6731, type: 2}
       propertyPath: m_LocalPosition.z
@@ -582,7 +592,7 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
-  orthographic: 0
+  orthographic: 1
   orthographic size: 5
   m_Depth: -1
   m_CullingMask:
@@ -751,6 +761,25 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &731331065 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1237869653027438, guid: e1b61a050579b294381cc89b7ba74f69,
+    type: 2}
+  m_PrefabInternal: {fileID: 20760347}
+--- !u!114 &731331067
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 731331065}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3f31f2aa0ec24f53b297d8052cd369b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  camera: {fileID: 534669904}
+  blobl: {fileID: 0}
+  targetPos: {x: 0, y: 0, z: 0}
 --- !u!114 &769415433 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 114387268708567520, guid: e1b61a050579b294381cc89b7ba74f69,
@@ -955,7 +984,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1622159019}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.36, z: 0}
+  m_LocalPosition: {x: 0, y: -2.2, z: 0}
   m_LocalScale: {x: 5, y: 1, z: 5}
   m_Children: []
   m_Father: {fileID: 0}

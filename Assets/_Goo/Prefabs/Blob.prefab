@@ -34,7 +34,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1366920081142920}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 2.35, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -52,7 +52,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damping: 0.5
-  mass: 0.1
+  mass: 1
   stiffness: 50
   initalLength: 3
   prefabBlobl: {fileID: 1626773187584268, guid: 7017ec90fdd63ac4ca5cb2abbd13b9b0,
@@ -64,3 +64,6 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  indexBL: 0
+  com: {x: 0, y: 0, z: 0}
+  maxMoveDistance: 5
