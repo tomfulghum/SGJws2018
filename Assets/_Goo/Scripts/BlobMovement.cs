@@ -45,43 +45,22 @@ public class BlobMovement : MonoBehaviour
             currentMassSpring.UnpauseBlobls();
             blobl = null;
         }
-<<<<<<< HEAD
-        if (blobl != null && blobl.GetComponent<Point>().StickToWall) {
-||||||| merged common ancestors
-        if (blobl != null &&blobl.GetComponent<Point>().StickToWall) {
-=======
-        if (blobl != null && blobl.GetComponent<Point>().stickToWall)
-        {
->>>>>>> 1be70cf1f8fe4c0cb32f913924cce05d092b9f30
+        if (blobl != null && blobl.GetComponent<Point>().stickToWall) {
             if (Input.GetKeyDown("s"))
             {
-<<<<<<< HEAD
-                if(blobl.GetComponent<Point>().state == Point.StickyState.None){
+                if(blobl.GetComponent<Point>().state == Point.StickyState.None)
+                {
                     currentMassSpring.SetStickyState(blobl,Point.StickyState.Wall);
-||||||| merged common ancestors
-                if(blobl.GetComponent<Point>().state == Point.StickyState.None){
-                    blobl.transform.parent.GetComponent<MassSpring>().SetStickyState(blobl,Point.StickyState.Wall);
-=======
-                if (blobl.GetComponent<Point>().state == Point.StickyState.None)
-                {
-                    blobl.transform.parent.GetComponent<MassSpring>().SetStickyState(blobl, Point.StickyState.Wall);
->>>>>>> 1be70cf1f8fe4c0cb32f913924cce05d092b9f30
                 }
-<<<<<<< HEAD
-                else if(blobl.GetComponent<Point>().state == Point.StickyState.Wall){
-                    currentMassSpring.SetStickyState(blobl,Point.StickyState.None);
-||||||| merged common ancestors
-                else if(blobl.GetComponent<Point>().state == Point.StickyState.Wall){
-                    blobl.transform.parent.GetComponent<MassSpring>().SetStickyState(blobl,Point.StickyState.None);
-=======
-                else if (blobl.GetComponent<Point>().state == Point.StickyState.Wall)
+                else if(blobl.GetComponent<Point>().state == Point.StickyState.Wall)
                 {
-                    blobl.transform.parent.GetComponent<MassSpring>().SetStickyState(blobl, Point.StickyState.None);
->>>>>>> 1be70cf1f8fe4c0cb32f913924cce05d092b9f30
+                    currentMassSpring.SetStickyState(blobl,Point.StickyState.None);
+                    blobl.transform.parent.GetComponent<MassSpring>().SetStickyState(blobl,Point.StickyState.None);
+
                 }
             }
         }
-<<<<<<< HEAD
+        CheckForMerge();
         if (currentMassSpring != null && Input.GetKey("a")){
             outerBlobl = currentMassSpring.getOuterBlobl(true);
             currentMassSpring.MoveBlobl(outerBlobl, new Vector3(outerBlobl.GetComponent<Point>().rb.transform.position.x-movingDistance,outerBlobl.GetComponent<Point>().rb.transform.position.y,0),movingSpeed);
@@ -98,10 +77,6 @@ public class BlobMovement : MonoBehaviour
         else if(outerBlobl != null && currentMassSpring != null && Input.GetKeyUp("d")){
                 
         }
-||||||| merged common ancestors
-=======
-        CheckForMerge();
->>>>>>> 1be70cf1f8fe4c0cb32f913924cce05d092b9f30
     }
 
     void CheckForMerge()
