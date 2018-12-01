@@ -59,9 +59,14 @@ public class MassSpring : MonoBehaviour
             throw new System.InvalidOperationException("Blob has to have at least 5 blobls");
         int subValue = Mathf.FloorToInt(points.Count / 2f);
         GameObject newBlob = GameObject.Instantiate(prefabBlob);
+        for (int i = newBlob.transform.childCount-1; i >= 0; i--)
+        {
+            
+            Destroy(newBlob.transform.GetChild(i).gameObject);
+        }
         for (int i = 0; i < subValue; i++)
         {
-            newBlob.GetComponent<MassSpring>().AddBlobl(points[i].transform, newBlob.transform);
+            newBlob.GetComponent<MassSpring>().AddBlobl(points[i].transform);
             this.RemoveBlobl(points[i]);
         }
         externalForce = new Vector3(50, 50, 0);
