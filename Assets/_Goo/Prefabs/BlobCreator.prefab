@@ -51,5 +51,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dd50de001b9fc940b9790786e7d059c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  massSprings: []
+  massSprings:
+  - {fileID: 114442160831210534, guid: acc605eb80ffd7042a885e86cbfe6731, type: 2}
+  - {fileID: 0}
   numBlobls: 8

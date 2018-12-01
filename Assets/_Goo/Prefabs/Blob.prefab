@@ -52,12 +52,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damping: 0.5
-  mass: 1
-  stiffness: 100
+  mass: 0.1
+  stiffness: 50
   initalLength: 3
   prefabBlobl: {fileID: 1626773187584268, guid: 7017ec90fdd63ac4ca5cb2abbd13b9b0,
     type: 2}
   prefabBlob: {fileID: 1366920081142920}
   externalForces: 0
   lockZAxis: 0
-  points: []
+  points:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
