@@ -77,9 +77,9 @@ public class MassSpring : MonoBehaviour
             newBlob.GetComponent<MassSpring>().AddBlobl(points[i].transform);
             this.RemoveBlobl(points[i]);
         }
-        externalForce = new Vector3(50, 50, 0);
+        externalForce = new Vector3(100, 100, 0);
         externalForces = true;
-        forceDuration = 0.25f;
+        forceDuration = 0.75f;
         OnSplit(newBlob.GetComponent<MassSpring>());
     }
 
@@ -157,6 +157,10 @@ public class MassSpring : MonoBehaviour
                 blobl.GetComponent<Point>().state = Point.StickyState.None;
                 sticky.RemoveAt(index);
             }
+        }
+        else if(state == Point.StickyState.Blobls)
+        {
+
         }
     }
 
