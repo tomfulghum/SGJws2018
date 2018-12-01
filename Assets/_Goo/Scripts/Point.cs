@@ -38,13 +38,13 @@ public class Point : MonoBehaviour
     private void OnTriggerEnter(Collider collision)
     {
             StickToWall = true;
-        Debug.Log("Stick");
     }
 
     private void OnTriggerExit(Collider collision)
     {
         StickToWall = false;
-        
+        if (state != StickyState.Blobls)
+            state = StickyState.None;
     }
 
     //=======================
