@@ -51,6 +51,7 @@ public class Point : MonoBehaviour
 
     private void FixedUpdate()
     {
+        stickToBlobl = -1;
         for (int i = 0; i < BlobBL.instance.arrayCount; i++)
         {
             MassSpring ms = transform.parent.GetComponent<MassSpring>();
@@ -61,10 +62,6 @@ public class Point : MonoBehaviour
                     if (Vector3.Distance(BlobBL.instance.massSprings[i].points[j].rb.position, this.rb.position) < GetComponent<SphereCollider>().radius * 2.5f)
                     {
                         stickToBlobl = i;
-                    }
-                    else
-                    {
-                        stickToBlobl = -1;
                     }
                 }
             }
