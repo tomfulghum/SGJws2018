@@ -119,14 +119,14 @@ public class BlobMovement : MonoBehaviour
         if (Input.GetKey("a"))
         {
             for (int i = 0; i < currentMassSpring.points.Count; i++)
-            {
+            {/*
                 float diffX = currentMassSpring.com.x - currentMassSpring.points[i].transform.position.x;
                 float diffZ = currentMassSpring.com.y - currentMassSpring.points[i].transform.position.y;
                 float hypotenuse = Mathf.Sqrt(diffX * diffX + diffZ * diffZ);
-                Vector3 tmpForce = new Vector3(-diffZ / hypotenuse - (currentMassSpring.points[i].transform.position.x - currentMassSpring.com.x), diffX / hypotenuse - (currentMassSpring.points[i].transform.position.x - currentMassSpring.com.y), 0f) * 50f;
-                print(tmpForce);
-                if (currentMassSpring.points[i].transform.position.x <= currentMassSpring.com.x)
-                    currentMassSpring.points[i].rb.AddForce(-tmpForce); //new Vector3(-movementForce.x, movementForce.y, 0));
+                Vector3 tmpForce = new Vector3(-diffZ / hypotenuse, diffX / hypotenuse, 0f) * 50f;
+                print(tmpForce);*/
+                //if (currentMassSpring.points[i].transform.position.x <= currentMassSpring.com.x)
+                    currentMassSpring.points[i].rb.AddForce( new Vector3(-movementForce.x, movementForce.y, 0)); //new Vector3(-movementForce.x, movementForce.y, 0));
             }
         }
         if (Input.GetKey("d"))
@@ -135,12 +135,13 @@ public class BlobMovement : MonoBehaviour
             {
                 if (currentMassSpring.points[i].transform.position.x >= currentMassSpring.com.x)
                 {/*
-                    float diffX = currentMassSpring.com - i;
-                    float diffZ = v2_rotCenter.y - j;
+                    float diffX = currentMassSpring.com.x - currentMassSpring.points[i].transform.position.x;
+                    float diffZ = currentMassSpring.com.y - currentMassSpring.points[i].transform.position.y;
                     float hypotenuse = Mathf.Sqrt(diffX * diffX + diffZ * diffZ);
-                    v3s_vectors[i, k, j] = new Vector3(-diffZ / hypotenuse - (i - v2_rotCenter.x) / 160f, y_vel, diffX / hypotenuse - (j - v2_rotCenter.y) / 160f) * (velScale * strModifier);
-                    */
-                    currentMassSpring.points[i].rb.AddForce(movementForce);
+                    Vector3 tmpForce = new Vector3(diffZ / hypotenuse, -diffX / hypotenuse, 0f) * 50f;*/
+                    
+                    currentMassSpring.points[i].rb.AddForce( new Vector3(movementForce.x, movementForce.y, 0)); //new Vector3(-movementForce.x, movementForce.y, 0));
+                    // currentMassSpring.points[i].rb.AddForce(movementForce);
                 }
             }
         }
@@ -158,7 +159,7 @@ public class BlobMovement : MonoBehaviour
                     if (k >= 0 && k != i)
                     {
                         BlobBL.instance.Merge(i, k);
-                        break;
+                        return;
                     }
                 }
             }

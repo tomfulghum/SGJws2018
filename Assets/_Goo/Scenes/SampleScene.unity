@@ -175,7 +175,7 @@ Prefab:
     - target: {fileID: 114387268708567520, guid: e1b61a050579b294381cc89b7ba74f69,
         type: 2}
       propertyPath: numBlobls
-      value: 4
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 114387268708567520, guid: e1b61a050579b294381cc89b7ba74f69,
         type: 2}
