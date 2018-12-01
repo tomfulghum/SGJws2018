@@ -4,14 +4,23 @@ using UnityEngine;
 
 public class Point : MonoBehaviour
 {
+    public enum StickyState
+    {
+        None,
+        Wall,
+        Blobls
+    }
+
     public Vector3 position;
     public Vector3 velocity;
     public Vector3 force;
     public float mass = 1f;
-    public bool stationary;
+    public StickyState state; // when sticking a selected blobl to a wall
+    public bool unmovable; // when selecting another blobl to move
     public bool lockZAxis = true;
     public Rigidbody rb;
-
+    public bool stickToWall;
+    public int stickToBlobl;
     private Vector3 tempPos;
     private Vector3 tempVel;
 
@@ -23,13 +32,53 @@ public class Point : MonoBehaviour
             throw new System.InvalidOperationException("Rigidbody has to be attached to object!");
         if (mass == 0)
             throw new System.InvalidOperationException("Mass has to be greater than 0!");
+        stickToBlobl = -1;
     }
+
+    //WallStick Possible?
+
+    private void OnTriggerEnter(Collider collision)
+    {
+        stickToWall = true;
+    }
+
+    private void OnTriggerExit(Collider collision)
+    {
+        stickToWall = false;
+        if (state != StickyState.Blobls)
+            state = StickyState.None;
+    }
+
+    private void FixedUpdate()
+    {
+        for (int i = 0; i < BlobBL.instance.arrayCount; i++)
+        {
+            MassSpring ms = transform.parent.GetComponent<MassSpring>();
+            if (i != ms.indexBL)
+            {
+                for (int j = 0; j < ms.points.Count; j++)
+                {
+                    if (Vector3.Distance(ms.points[j].rb.position, this.rb.position) < GetComponent<SphereCollider>().radius * 1.5f)
+                    {
+                        stickToBlobl = i;                
+                    }
+                    else
+                    {
+                        stickToBlobl = -1;
+                    }
+                }
+            }
+        }
+    }
+
+    //=======================
 
     public void MidpointAdvect_1()
     {
-        if (stationary)
+        if (state == StickyState.Wall || unmovable)
         {
             rb.velocity = Vector3.zero;
+            rb.position = new Vector3(rb.position.x, rb.position.y, 0f);
             return;
         }
         // calculate posAfterHalfStep = x(t) + h/2 * v(t, x(t))
@@ -50,9 +99,10 @@ public class Point : MonoBehaviour
 
     public void MidpointAdvect_2()
     {
-        if (stationary)
+        if (state == StickyState.Wall || unmovable)
         {
             rb.velocity = Vector3.zero;
+            rb.position = new Vector3(rb.position.x, rb.position.y, 0f);
             return;
         }
         else
