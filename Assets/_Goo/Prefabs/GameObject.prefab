@@ -51,12 +51,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82de3f408c7be0c449a4f3995063f33b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numPoints: 5
-  damping: 0.1
+  numBlobls: 3
+  damping: 0.5
   mass: 1
   stiffness: 100
-  initalLength: 2
+  initalLength: 3
   prefab: {fileID: 1626773187584268, guid: 7017ec90fdd63ac4ca5cb2abbd13b9b0, type: 2}
   externalForce: {x: 0, y: 0, z: 0}
   externalForces: 0
   lockZAxis: 0
+  points: []

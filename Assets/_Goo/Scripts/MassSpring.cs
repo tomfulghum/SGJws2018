@@ -5,7 +5,7 @@ using UnityEngine;
 public class MassSpring : MonoBehaviour
 {
 
-    public int numPoints;
+    public int numBlobls;
     public float damping;
     public float mass;
     public float stiffness;
@@ -17,31 +17,38 @@ public class MassSpring : MonoBehaviour
     public bool lockZAxis;
 
     public const float FLT_EPSILON = 0.000001f;
-
-    private int numSprings;
-    private Point[] points;
-    private List<Spring> springs;
+    
+    public List<Point> points;
+    private List<List<Spring>> springs;
 
     // Use this for initialization
     void Start()
     {
+        if (numBlobls < 1)
+            throw new System.InvalidOperationException("At least one blobl has to be present(numBlobls).");
         externalForces = false;
-        points = new Point[numPoints];
-        springs = new List<Spring>();
-        for (int i = 0; i < numPoints; i++)
+        points = new List<Point>();
+        springs = new List<List<Spring>>();
+        for (int i = 0; i < numBlobls; i++)
         {
-            points[i] = GameObject.Instantiate(prefab, new Vector3(i, i % 2, i % 3), Quaternion.identity).GetComponent<Point>();
             if (i == 0)
-                points[i].stationary = true;
-        }
-        for (int i = 0; i < numPoints; i++)
-        {
-            for (int j = i + 1; j < numPoints; j++)
             {
-                springs.Add(new Spring(initalLength, stiffness));
-                springs[springs.Count - 1].p1 = points[i];
-                springs[springs.Count - 1].p2 = points[j];
-
+                points.Add(GameObject.Instantiate(prefab, new Vector3(i, 10, i % 3), Quaternion.identity).GetComponent<Point>());
+                points[i].stationary = true;
+            }
+            else
+            {
+                points.Add(GameObject.Instantiate(prefab, new Vector3(i, (i % 2) * 4, i % 3), Quaternion.identity).GetComponent<Point>());
+            }
+        }
+        for (int i = 0; i < numBlobls; i++)
+        {
+            springs.Add(new List<Spring>());
+            for (int j = i + 1; j < numBlobls; j++)
+            {
+                springs[i].Add(new Spring(initalLength, stiffness));
+                springs[i][springs[i].Count - 1].p1 = points[i];
+                springs[i][springs[i].Count - 1].p2 = points[j];
             }
         }
     }
@@ -49,13 +56,13 @@ public class MassSpring : MonoBehaviour
     private void FixedUpdate()
     {
         AddSpringForces();
-        for (int i = 0; i < points.Length; i++)
+        for (int i = 0; i < points.Count; i++)
         {
             points[i].MidpointAdvect_1();
             points[i].force += Physics.gravity;
         }
         AddSpringForces();
-        for (int i = 0; i < points.Length; i++)
+        for (int i = 0; i < points.Count; i++)
         {
             points[i].MidpointAdvect_2();
             points[i].force += Physics.gravity;
@@ -72,9 +79,14 @@ public class MassSpring : MonoBehaviour
 
     }
 
+    public void RemoveBlobl()
+    {
+
+    }
+
     void AddDamping()
     {
-        for (int i = 0; i < numPoints; i++)
+        for (int i = 0; i < numBlobls; i++)
         {
             // could also be points[i].damping instead of m_fDamping
             points[i].force -= points[i].rb.velocity * damping;
@@ -83,7 +95,7 @@ public class MassSpring : MonoBehaviour
 
     void ApplyExternalForceAll(Vector3 externalForce)
     {
-        for (int i = 0; i < numPoints; i++)
+        for (int i = 0; i < numBlobls; i++)
         {
             //	independent of point's mass
             points[i].force += (externalForce * points[i].mass);
@@ -95,7 +107,8 @@ public class MassSpring : MonoBehaviour
         //	iterate over all springs
         for (int i = 0; i < springs.Count; i++)
         {
-            springs[i].CalculateSpringForce();
+            for(int j = 0; j< springs[i].Count; j++)
+                springs[i][j].CalculateSpringForce();
         }
         //	add damping
         AddDamping();
