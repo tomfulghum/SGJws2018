@@ -16,7 +16,7 @@ public class BlobBL : MonoBehaviour
 
     public static BlobBL instance;
         
-    private void Start()
+    private void Awake()
     {
         if (massSprings == null)
             throw new System.InvalidOperationException("MassSpring reference has to be set!");

@@ -112,7 +112,11 @@ public class MassSpring : MonoBehaviour
             if (idx == -1 || i != idx)
                 com += points[i].rb.position;
         }
-        com /= (points.Count - 1);
+        if(idx != -1)
+            com /= (points.Count - 1);
+        else
+            com /= (points.Count);
+
     }
 
     // unpause static blobls

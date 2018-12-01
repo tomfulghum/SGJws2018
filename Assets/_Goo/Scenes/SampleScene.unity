@@ -175,7 +175,7 @@ Prefab:
     - target: {fileID: 114387268708567520, guid: e1b61a050579b294381cc89b7ba74f69,
         type: 2}
       propertyPath: numBlobls
-      value: 12
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 114387268708567520, guid: e1b61a050579b294381cc89b7ba74f69,
         type: 2}
@@ -416,6 +416,16 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4310584463068440, guid: acc605eb80ffd7042a885e86cbfe6731, type: 2}
       propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114442160831210534, guid: acc605eb80ffd7042a885e86cbfe6731,
+        type: 2}
+      propertyPath: stiffness
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 114442160831210534, guid: acc605eb80ffd7042a885e86cbfe6731,
+        type: 2}
+      propertyPath: initalLength
       value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -785,7 +795,7 @@ MonoBehaviour:
   targetPos: {x: 0, y: 0, z: 0}
   movingDistance: 50
   movingSpeed: 1000
-  movementForce: {x: 100, y: 0, z: 0}
+  movementForce: {x: 100, y: -25, z: 0}
 --- !u!114 &769415433 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 114387268708567520, guid: e1b61a050579b294381cc89b7ba74f69,
