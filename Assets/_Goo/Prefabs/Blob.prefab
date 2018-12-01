@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4310584463068440}
   - component: {fileID: 114442160831210534}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Blob
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -51,7 +51,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82de3f408c7be0c449a4f3995063f33b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numBlobls: 3
+  numBlobls: 5
   damping: 0.5
   mass: 1
   stiffness: 100

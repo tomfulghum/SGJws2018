@@ -40,6 +40,7 @@ public class MassSpring : MonoBehaviour
             {
                 points.Add(GameObject.Instantiate(prefab, new Vector3(i, (i % 2) * 4, i % 3), Quaternion.identity).GetComponent<Point>());
             }
+            points[i].transform.parent = this.transform;
         }
         for (int i = 0; i < numBlobls; i++)
         {
@@ -51,6 +52,7 @@ public class MassSpring : MonoBehaviour
                 springs[i][springs[i].Count - 1].p2 = points[j];
             }
         }
+        RemoveBlobl(points[2]);
     }
 
     private void FixedUpdate()
@@ -79,23 +81,38 @@ public class MassSpring : MonoBehaviour
 
     }
 
-    public void RemoveBlobl()
+    public void RemoveBlobl(Point toRemove)
     {
-
+        int idx = points.IndexOf(toRemove);
+        if (idx >= points.Count)
+            throw new System.InvalidOperationException("Cannot remove current Point. (Has to be included in the List)");
+        for(int i = 0; i < springs.Count; i++)
+        {
+            if (i == idx)
+            {
+                springs.RemoveAt(i);
+                break;
+            }
+            else
+                springs[i].RemoveAt(idx-i-1);
+        }
+        GameObject tmp = points[idx].gameObject;
+        points.RemoveAt(idx);
+        Destroy(tmp);
     }
 
     void AddDamping()
     {
-        for (int i = 0; i < numBlobls; i++)
+        for (int i = 0; i < points.Count; i++)
         {
-            // could also be points[i].damping instead of m_fDamping
+            // could also be points[i].damping instead of damping
             points[i].force -= points[i].rb.velocity * damping;
         }
     }
 
     void ApplyExternalForceAll(Vector3 externalForce)
     {
-        for (int i = 0; i < numBlobls; i++)
+        for (int i = 0; i < points.Count; i++)
         {
             //	independent of point's mass
             points[i].force += (externalForce * points[i].mass);
@@ -107,8 +124,10 @@ public class MassSpring : MonoBehaviour
         //	iterate over all springs
         for (int i = 0; i < springs.Count; i++)
         {
-            for(int j = 0; j< springs[i].Count; j++)
+            for (int j = 0; j < springs[i].Count; j++)
+            {
                 springs[i][j].CalculateSpringForce();
+            }
         }
         //	add damping
         AddDamping();
