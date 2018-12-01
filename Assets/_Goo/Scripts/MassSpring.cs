@@ -130,8 +130,10 @@ public class MassSpring : MonoBehaviour
         }
         else if (state == Point.StickyState.None){
             int index = sticky.IndexOf(blobl.GetComponent<Point>());
-            blobl.GetComponent<Point>().state = Point.StickyState.None;
-            sticky.RemoveAt(index);
+            if(index>-1){
+                blobl.GetComponent<Point>().state = Point.StickyState.None;
+                sticky.RemoveAt(index);
+            }
         }
     
     }
