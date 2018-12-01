@@ -45,6 +45,8 @@ public class Point : MonoBehaviour
     private void OnTriggerExit(Collider collision)
     {
         stickToWall = false;
+        if (state != StickyState.Blobls)
+            state = StickyState.None;
     }
 
     private void FixedUpdate()
