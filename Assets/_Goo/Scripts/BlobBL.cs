@@ -60,9 +60,9 @@ public class BlobBL : MonoBehaviour
     {
         if (arrayCount > 1)
         {
-            MassSpring ToMerge = massSprings[1];
+            MassSpring ToMerge = massSprings[idx2];
             RemoveMassSpring(ToMerge);
-            massSprings[0].Merge(ToMerge);
+            massSprings[idx1].Merge(ToMerge);
             arrayCount--;
         }
     }

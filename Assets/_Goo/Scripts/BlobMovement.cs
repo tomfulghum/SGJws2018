@@ -68,6 +68,7 @@ public class BlobMovement : MonoBehaviour
                     if (k >= 0 && k != i)
                     {
                         BlobBL.instance.Merge(i, k);
+                        break;
                     }
                 }
             }
