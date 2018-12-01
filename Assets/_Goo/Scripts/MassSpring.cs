@@ -4,18 +4,16 @@ using UnityEngine;
 
 public class MassSpring : MonoBehaviour
 {
-
-    public int numBlobls;
     public float damping;
     public float mass;
     public float stiffness;
     public float initalLength;
 
-    public GameObject prefab;
+    public GameObject prefabBlobl;
+    public GameObject prefabBlob;
     public Vector3 externalForce;
     public bool externalForces;
     public bool lockZAxis;
-    public bool firstInit;
     public List<Point> points;
 
     public const float FLT_EPSILON = 0.000001f;
@@ -23,20 +21,11 @@ public class MassSpring : MonoBehaviour
     private List<List<Spring>> springs;
 
     // Use this for initialization
-    void Start()
+    void Awake()
     {
-        if (numBlobls < 1)
-            throw new System.InvalidOperationException("At least one blobl has to be present(numBlobls).");
         externalForces = false;
         points = new List<Point>();
         springs = new List<List<Spring>>();
-        if (firstInit)
-        {
-            for (int i = 0; i < numBlobls; i++)
-            {
-                AddBlobl(new Vector3(i, i % 2, 0), Quaternion.identity, this.transform);
-            }
-        }
     }
 
     private void FixedUpdate()
@@ -60,16 +49,13 @@ public class MassSpring : MonoBehaviour
         if (points.Count < 5)
             throw new System.InvalidOperationException("Blob has to have at least 5 blobls");
         int subValue = Mathf.FloorToInt(points.Count / 2f);
-        GameObject newBlob = GameObject.Instantiate(this.gameObject, transform);
-        newBlob.GetComponent<MassSpring>().firstInit = false;
+        GameObject newBlob = GameObject.Instantiate(prefabBlob);
         for (int i = 0; i < subValue; i++)
         {
+            newBlob.GetComponent<MassSpring>().AddBlobl(points[i].transform, newBlob.transform);
             this.RemoveBlobl(points[i]);
         }
-        for (int i = subValue; i < points.Count; i++)
-        {
-            newBlob.GetComponent<MassSpring>().RemoveBlobl(points[i]);
-        }
+        //return newBlob.GetComponent<MassSpring>();
     }
 
     public void MoveBlobl(GameObject blobl, Vector3 targetPosition)
@@ -101,13 +87,13 @@ public class MassSpring : MonoBehaviour
 
     public void AddBlobl(Transform transform, Transform parent)
     {
-        points.Add(GameObject.Instantiate(prefab, transform).GetComponent<Point>());
+        points.Add(GameObject.Instantiate(prefabBlobl, transform).GetComponent<Point>());
         points[points.Count - 1].transform.parent = parent;
         AddSprings();
     }
     public void AddBlobl(Vector3 pos, Quaternion quat, Transform parent)
     {
-        points.Add(GameObject.Instantiate(prefab, pos, quat).GetComponent<Point>());
+        points.Add(GameObject.Instantiate(prefabBlobl, pos, quat).GetComponent<Point>());
         points[points.Count - 1].transform.parent = parent;
         AddSprings();
     }

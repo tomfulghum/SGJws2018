@@ -31,6 +31,7 @@ public class Point : MonoBehaviour
         if (stationary || unmovable)
         {
             rb.velocity = Vector3.zero;
+            rb.position = new Vector3(rb.position.x, rb.position.y, 0f);
             return;
         }
         // calculate posAfterHalfStep = x(t) + h/2 * v(t, x(t))
@@ -54,6 +55,7 @@ public class Point : MonoBehaviour
         if (stationary || unmovable)
         {
             rb.velocity = Vector3.zero;
+            rb.position = new Vector3(rb.position.x, rb.position.y, 0f);
             return;
         }
         else
