@@ -8,7 +8,8 @@ public class Point : MonoBehaviour
     public Vector3 velocity;
     public Vector3 force;
     public float mass = 1f;
-    public bool stationary;
+    public bool stationary; // when sticking a selected blobl to a wall
+    public bool unmovable; // when selecting another blobl to move
     public bool lockZAxis = true;
     public Rigidbody rb;
 
@@ -27,7 +28,7 @@ public class Point : MonoBehaviour
 
     public void MidpointAdvect_1()
     {
-        if (stationary)
+        if (stationary || unmovable)
         {
             rb.velocity = Vector3.zero;
             return;
@@ -50,7 +51,7 @@ public class Point : MonoBehaviour
 
     public void MidpointAdvect_2()
     {
-        if (stationary)
+        if (stationary || unmovable)
         {
             rb.velocity = Vector3.zero;
             return;
