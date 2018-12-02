@@ -160,7 +160,7 @@ public class MassSpring : MonoBehaviour
     {
         for (int i = 0; i < points.Count; i++)
         {
-            points[i].state = Point.StickyState.None;
+            SetStickyState(points[i].gameObject, Point.StickyState.None);
         }
     }
 
