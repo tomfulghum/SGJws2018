@@ -202,10 +202,6 @@ public class MassSpring : MonoBehaviour
                 sticky.RemoveAt(index);
             }
         }
-        else if (state == Point.StickyState.Blobls)
-        {
-
-        }
     }
 
     public void Merge(MassSpring massSpring)

@@ -45,7 +45,7 @@ public class Point : MonoBehaviour
             Destroy(collision.gameObject);
         else if (collision.gameObject.layer == 10)
         {
-            transform.parent.GetComponent<MassSpring>().AddBlobl(transform.parent.GetComponent<MassSpring>().com, Quaternion.identity);
+            transform.parent.GetComponent<MassSpring>().AddBlobl(collision.gameObject.transform);
             Destroy(collision.gameObject);
         }
         else
