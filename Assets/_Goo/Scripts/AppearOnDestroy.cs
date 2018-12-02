@@ -22,5 +22,6 @@ public class AppearOnDestroy : MonoBehaviour {
         }
         this.GetComponent<Renderer>().enabled = true;
         gameObject.layer = originalLayer;
+        Destroy(this);
     }
 }
