@@ -1873,7 +1873,6 @@ GameObject:
   m_Component:
   - component: {fileID: 852549808}
   - component: {fileID: 852549809}
-  - component: {fileID: 852549810}
   m_Layer: 0
   m_Name: Level1
   m_TagString: Untagged
@@ -1909,20 +1908,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d394e5257b535a4fb978158ea6670cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  toDestroys:
-  - {fileID: 1854378086}
---- !u!114 &852549810
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 852549807}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 32881d4cd54f6064ab3eb4c6bb230aaa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  toEnable: {fileID: 1853160563}
   toDestroys:
   - {fileID: 1854378086}
 --- !u!1 &877125493
@@ -4282,6 +4267,7 @@ GameObject:
   - component: {fileID: 1952420024}
   - component: {fileID: 1952420023}
   - component: {fileID: 1952420025}
+  - component: {fileID: 1952420026}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -4327,6 +4313,20 @@ MonoBehaviour:
   toEnable: {fileID: 1292420585}
   toDestroys:
   - {fileID: 851028378}
+--- !u!114 &1952420026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1952420022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32881d4cd54f6064ab3eb4c6bb230aaa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  toEnable: {fileID: 1853160563}
+  toDestroys:
+  - {fileID: 1854378086}
 --- !u!1001 &1976104801
 Prefab:
   m_ObjectHideFlags: 0
