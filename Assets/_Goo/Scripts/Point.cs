@@ -73,7 +73,7 @@ public class Point : MonoBehaviour
     private void FixedUpdate()
     {
         stickToBlobl = -1;
-        for (int i = 0; i < BlobBL.instance.arrayCount; i++)
+        for (int i = 0; i < BlobBL.instance.massSprings.Count; i++)
         {
             MassSpring ms = transform.parent.GetComponent<MassSpring>();
             if (i != ms.indexBL)

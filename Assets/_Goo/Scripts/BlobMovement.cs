@@ -118,7 +118,7 @@ public class BlobMovement : MonoBehaviour
     {
         if (Input.GetKeyDown("e"))
         {
-            for (int i = 0; i < BlobBL.instance.arrayCount; i++)
+            for (int i = 0; i < BlobBL.instance.massSprings.Count; i++)
             {
                 for (int j = 0; j < BlobBL.instance.massSprings[i].points.Count; j++)
                 {
