@@ -174,7 +174,7 @@ public class BlobMovement : MonoBehaviour
     {
         if (Input.GetKeyDown("r"))
         {
-            currentMassSpring.UnpauseBlobls();
+            currentMassSpring.UnstickyBlobls();
         }
     }
     void CheckForSplit()
