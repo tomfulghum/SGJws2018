@@ -35,6 +35,7 @@ public class BlobMovement : MonoBehaviour
                 {
                     blobl = hit.transform.gameObject;
                     currentMassSpring = blobl.transform.parent.GetComponent<MassSpring>();
+                    
                 }
             }
             if (blobl != null)
@@ -47,6 +48,7 @@ public class BlobMovement : MonoBehaviour
         if (Input.GetMouseButtonUp(0) && blobl != null)
         {
             currentMassSpring.UnpauseBlobls();
+            currentMassSpring.GetComponent<MeshRenderer>().enabled = false;
             blobl = null;
         }
         if (blobl != null && blobl.GetComponent<Point>().stickToWall)
@@ -64,6 +66,8 @@ public class BlobMovement : MonoBehaviour
 
                 }
             }
+        }
+        if(currentMassSpring!=null){
         }
         CheckForMerge();
         CheckForSplit();
@@ -170,7 +174,6 @@ public class BlobMovement : MonoBehaviour
             }
         }
     }
-
     void CheckForSplit()
     {
         if (Input.GetKeyDown("w"))
