@@ -170,6 +170,13 @@ public class BlobMovement : MonoBehaviour
             }
         }
     }
+    void CheckForRelease()
+    {
+        if (Input.GetKeyDown("r"))
+        {
+            currentMassSpring.UnstickyBlobls();
+        }
+    }
     void CheckForSplit()
     {
         if (Input.GetKeyDown("w"))
