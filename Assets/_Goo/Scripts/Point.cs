@@ -41,7 +41,15 @@ public class Point : MonoBehaviour
 
     private void OnTriggerEnter(Collider collision)
     {
-        stickToWall = true;
+        if (collision.gameObject.layer == 9)
+            Destroy(collision.gameObject);
+        else if (collision.gameObject.layer == 10)
+        {
+            transform.parent.GetComponent<MassSpring>().AddBlobl(collision.gameObject.transform);
+            Destroy(collision.gameObject);
+        }
+        else
+            stickToWall = true;
     }
 
     private void OnTriggerExit(Collider collision)

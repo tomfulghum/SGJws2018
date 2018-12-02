@@ -67,45 +67,7 @@ public class BlobMovement : MonoBehaviour
         }
         CheckForMerge();
         CheckForSplit();
-        /*if (!Input.GetKeyUp("a"))
-        {
-            if (Input.GetKey("a"))
-            {
-                currentMassSpring.MoveBlobl(outerBlobl, new Vector3(outerBlobl.GetComponent<Point>().rb.transform.position.x - movingDistance, outerBlobl.GetComponent<Point>().rb.transform.position.y, 0), movingSpeed);
-                currentMassSpring.UnpauseBlobls();
-                outerBlobl.transform.GetChild(0).gameObject.SetActive(false);
-            }
-            if (outerBlobl == null && currentMassSpring != null)
-            {
-                outerBlobl = currentMassSpring.getOuterBlobl(true);
-                currentMassSpring.UnpauseBlobls();
-                outerBlobl.transform.GetChild(0).gameObject.SetActive(false);
-
-            }
-        }
-        else if (outerBlobl != null && currentMassSpring != null && Input.GetKeyUp("a"))
-        {
-            currentMassSpring.UnpauseBlobls();
-            outerBlobl.transform.GetChild(0).gameObject.SetActive(true);
-            outerBlobl = null;
-        }
-        if (Input.GetKey("d"))
-        {
-            currentMassSpring.MoveBlobl(outerBlobl, new Vector3(outerBlobl.GetComponent<Point>().rb.transform.position.x + movingDistance, outerBlobl.GetComponent<Point>().rb.transform.position.y, 0), movingSpeed);
-            currentMassSpring.UnpauseBlobls(); outerBlobl.transform.GetChild(0).gameObject.SetActive(false);
-        }
-        if (outerBlobl == null && currentMassSpring != null && Input.GetKey("d"))
-        {
-            outerBlobl = currentMassSpring.getOuterBlobl(false);
-            currentMassSpring.UnpauseBlobls();
-            outerBlobl.transform.GetChild(0).gameObject.SetActive(false);
-        }
-        else if (outerBlobl != null && currentMassSpring != null && Input.GetKeyUp("d"))
-        {
-            currentMassSpring.UnpauseBlobls();
-            outerBlobl.transform.GetChild(0).gameObject.SetActive(true);
-            outerBlobl = null;
-        }*/
+        CheckForRelease();
         Movement();
     }
 
@@ -168,6 +130,13 @@ public class BlobMovement : MonoBehaviour
                     }
                 }
             }
+        }
+    }
+    void CheckForRelease()
+    {
+        if (Input.GetKeyDown("r"))
+        {
+            currentMassSpring.UnstickyBlobls();
         }
     }
     void CheckForSplit()

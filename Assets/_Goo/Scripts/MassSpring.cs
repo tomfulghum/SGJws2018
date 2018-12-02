@@ -156,6 +156,13 @@ public class MassSpring : MonoBehaviour
             points[i].unmovable = false;
         }
     }
+    public void UnstickyBlobls()
+    {
+        for (int i = 0; i < points.Count; i++)
+        {
+            points[i].state = Point.StickyState.None;
+        }
+    }
 
     // called when blobl should be stuck to or removed from wall 
     public void SetStickyState(GameObject blobl, Point.StickyState state)
@@ -194,10 +201,6 @@ public class MassSpring : MonoBehaviour
                 blobl.GetComponent<Point>().state = Point.StickyState.None;
                 sticky.RemoveAt(index);
             }
-        }
-        else if (state == Point.StickyState.Blobls)
-        {
-
         }
     }
 
@@ -410,7 +413,7 @@ public class MassSpring : MonoBehaviour
         msh.RecalculateNormals();
         msh.RecalculateBounds();
         msh.MarkDynamic();
-
+        
         // Set up game object with mesh;
         if (gameObject.GetComponent<MeshRenderer>() == null)
         {
