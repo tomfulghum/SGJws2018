@@ -32,6 +32,8 @@ public class MassSpring : MonoBehaviour
     private List<Point> sticky;
 
     // Use this for initialization
+    void Update(){
+    }
     void Awake()
     {
         sticky = new List<Point>();
@@ -102,6 +104,7 @@ public class MassSpring : MonoBehaviour
             points[idx].transform.position = Vector3.MoveTowards(points[idx].transform.position,targetPosition, speed*Time.deltaTime);
         else
             points[idx].transform.position = Vector3.MoveTowards(points[idx].transform.position, com + (targetPosition - com).normalized * maxMoveDistance, speed*Time.deltaTime);
+        MakePolygon(blobl);
     }
 
     public void CalcCom(int idx = -1)
@@ -312,4 +315,74 @@ public class MassSpring : MonoBehaviour
         }
         return result.transform.gameObject;
     }
+
+    Vector3[] getVertices(){
+        Vector3[] vertizes = new Vector3[points.Count];
+        for(int i=0; i<points.Count;i++){
+                vertizes[i] = points[i].transform.position;
+        }
+        return vertizes;
+    }
+    Vector3[] findVertices(GameObject blobl){
+        Point closest = GetClosestBobl(blobl, points);
+        int index = points.IndexOf(closest);
+        points.RemoveAt(index);
+        Point secClosest = GetClosestBobl(blobl, points);
+        points.Insert(index,closest);
+        Vector3[] result = new Vector3[3];
+        result[0] = closest.transform.position;
+        result[1] = secClosest.transform.position;
+        result[2] = blobl.GetComponent<Point>().transform.position;
+        return result;
+    }
+    public void MakePolygon(GameObject blobl){
+        Vector3[] vertices3D = findVertices(blobl);
+        // Create the mesh
+        Mesh msh = new Mesh();
+        msh.vertices = vertices3D;
+        int[] vertices = new int[6];
+        Debug.Log(vertices3D[0]);
+        Debug.Log(vertices3D[1]);
+        Debug.Log(vertices3D[2]);
+
+        vertices[0]=0;
+        vertices[1]=1;
+        vertices[2]=2;
+        vertices[3]=0;
+        vertices[4]=2;
+        vertices[5]=1;
+        msh.triangles = vertices;
+        msh.RecalculateNormals();
+        msh.RecalculateBounds();
+        msh.MarkDynamic();
+
+        // Set up game object with mesh;
+        if(gameObject.GetComponent<MeshRenderer>() == null){
+            gameObject.AddComponent(typeof(MeshRenderer));
+        }
+        if(gameObject.GetComponent<MeshFilter>() == null)
+            gameObject.AddComponent(typeof(MeshFilter));
+        MeshFilter filter = gameObject.GetComponent<MeshFilter>();
+        filter.mesh = msh;
+    }
+    Point GetClosestBobl(GameObject blobl , List<Point> points)
+{
+    Point tMin = null;
+    float minDist = Mathf.Infinity;
+    Point self = blobl.GetComponent<Point>();
+    Vector3 currentPos = blobl.GetComponent<Point>().transform.position;
+    foreach (Point t in points)
+    {
+        if(self == t){
+            continue;
+        }
+        float dist = Vector3.Distance(t.transform.position, currentPos);
+        if (dist < minDist)
+        {
+            tMin = t;
+            minDist = dist;
+        }
+    }
+    return tMin;
+}
 }
