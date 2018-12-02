@@ -160,7 +160,7 @@ public class MassSpring : MonoBehaviour
     {
         for (int i = 0; i < points.Count; i++)
         {
-            points[i].sticky = Point.StickyState=None;
+            points[i].state = Point.StickyState.None;
         }
     }
 
@@ -417,7 +417,7 @@ public class MassSpring : MonoBehaviour
         msh.RecalculateNormals();
         msh.RecalculateBounds();
         msh.MarkDynamic();
-        Debug.
+        
         // Set up game object with mesh;
         if (gameObject.GetComponent<MeshRenderer>() == null)
         {
