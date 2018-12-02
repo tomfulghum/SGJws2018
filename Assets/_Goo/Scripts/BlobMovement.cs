@@ -126,7 +126,7 @@ public class BlobMovement : MonoBehaviour
                     float diffX = currentMassSpring.com.x - currentMassSpring.points[i].transform.position.x;
                     float diffZ = currentMassSpring.com.y - currentMassSpring.points[i].transform.position.y;
                     float hypotenuse = Mathf.Sqrt(diffX * diffX + diffZ * diffZ);
-                    tmpForce = new Vector3(-diffZ / hypotenuse, diffX / hypotenuse, 0f) * 50f; 
+                    tmpForce = new Vector3(-diffZ / hypotenuse, diffX / hypotenuse, 0f) * 75f; 
                     currentMassSpring.points[i].rb.AddForce(-tmpForce);
                 }
                 if (currentMassSpring.points[i].transform.position.x <= currentMassSpring.com.x)
@@ -143,7 +143,7 @@ public class BlobMovement : MonoBehaviour
                     float diffX = currentMassSpring.com.x - currentMassSpring.points[i].transform.position.x;
                     float diffZ = currentMassSpring.com.y - currentMassSpring.points[i].transform.position.y;
                     float hypotenuse = Mathf.Sqrt(diffX * diffX + diffZ * diffZ);
-                    tmpForce = new Vector3(-diffZ / hypotenuse, diffX / hypotenuse, 0f) * 50f;
+                    tmpForce = new Vector3(-diffZ / hypotenuse, diffX / hypotenuse, 0f) * 75f;
                     currentMassSpring.points[i].rb.AddForce(tmpForce);
                 }
                 if (currentMassSpring.points[i].transform.position.x >= currentMassSpring.com.x)                    

@@ -313,7 +313,7 @@ Prefab:
     - target: {fileID: 114442160831210534, guid: acc605eb80ffd7042a885e86cbfe6731,
         type: 2}
       propertyPath: SplitStrength
-      value: 100
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 114442160831210534, guid: acc605eb80ffd7042a885e86cbfe6731,
         type: 2}
