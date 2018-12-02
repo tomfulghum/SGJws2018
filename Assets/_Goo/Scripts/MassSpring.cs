@@ -246,6 +246,7 @@ public class MassSpring : MonoBehaviour
             points[points.Count - 1].transform.parent = parent;
         else
             points[points.Count - 1].transform.parent = this.transform;
+        points[points.Count - 1].transform.localScale = Vector3.one;
         AddSprings();
     }
     public void AddBlobl(Vector3 pos, Quaternion quat, Transform parent = null)
@@ -397,6 +398,8 @@ public class MassSpring : MonoBehaviour
     }
     public void MakePolygon(GameObject blobl)
     {
+        if (points.Count < 3)
+            return;
         Vector3[] vertices3D = findVertices(blobl);
         // Create the mesh
         Mesh msh = new Mesh();

@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Point : MonoBehaviour
 {
+    public delegate void Deactivate(GameObject gm);
+    public static event Deactivate OnDeactivate;
+
     public enum StickyState
     {
         None,
@@ -39,6 +42,14 @@ public class Point : MonoBehaviour
 
     //WallStick Possible?
 
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.layer == 12)
+        {
+            OnDeactivate(other.gameObject);
+        }
+    }
+
     private void OnTriggerEnter(Collider collision)
     {
         if (collision.gameObject.layer == 9)
@@ -48,7 +59,7 @@ public class Point : MonoBehaviour
             transform.parent.GetComponent<MassSpring>().AddBlobl(collision.gameObject.transform);
             Destroy(collision.gameObject);
         }
-        else
+        else 
             stickToWall = true;
     }
 
@@ -77,7 +88,7 @@ public class Point : MonoBehaviour
             }
         }
     }
-    
+
     public void MidpointAdvect_1()
     {
         if (unMovVel.z < 5)
@@ -86,7 +97,7 @@ public class Point : MonoBehaviour
         {
             if (rb.velocity.z < 5)
                 unMovVel = rb.velocity;
-            rb.velocity = new Vector3(0,0,10);
+            rb.velocity = new Vector3(0, 0, 10);
             rb.MovePosition(new Vector3(rb.position.x, rb.position.y, 0f));
             return;
         }
