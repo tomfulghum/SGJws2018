@@ -15,7 +15,7 @@ public class ButtonFunctions : MonoBehaviour
 
     public void RestartGame()
     {
-        SceneManager.LoadScene(1);      //load Game Scene with index 1
+        SceneManager.LoadScene(0);      //load Game Scene with index 1
         Debug.Log("Restart");
     }
 
