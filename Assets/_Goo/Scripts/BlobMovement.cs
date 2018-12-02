@@ -5,77 +5,112 @@ using UnityEngine;
 public class BlobMovement : MonoBehaviour
 {
     private GameObject blobl = null;  //Attachen zu Blobbls
-
+    private GameObject outerBlobl = null;
     public Vector3 targetPos;
-    public float movingDistance = 10;
     private MassSpring currentMassSpring = null;
-
-    public float movingSpeed = 6;
-
-
+    
+    public Vector3 movementForce;
+    private Vector3 currMoveTarget;
+    private int layermask = 1 << 8;
+    public void setCurrentMassSpring(MassSpring ms){
+        currentMassSpring = ms;
+    }
     void Update()
     {
         RaycastHit hit;
-        GameObject outerBlobl = null;
+        
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
 
         if (Input.GetMouseButton(0))
         {
-
-            if (Physics.Raycast(ray, out hit))
-            {
-
-                //transform.position = targetPos;
-                if (hit.transform.gameObject.GetComponent<Point>() != null && blobl==null)
+            
+            if (Physics.Raycast(ray, out hit, layermask))
+            {                
+                if (hit.transform.gameObject.GetComponent<Point>() != null && blobl == null)
                 {
                     blobl = hit.transform.gameObject;
                     currentMassSpring = blobl.transform.parent.GetComponent<MassSpring>();
+                    
                 }
             }
             if (blobl != null)
             {
                 targetPos = Camera.main.ScreenToWorldPoint(Input.mousePosition, 0);
-                currentMassSpring.MoveBlobl(blobl, targetPos, movingSpeed);
+                currentMassSpring.MoveBlobl(blobl, targetPos, 10000f);
+                currentMassSpring.GetComponent<MeshRenderer>().enabled = false;
             }
         }
 
         if (Input.GetMouseButtonUp(0) && blobl != null)
         {
             currentMassSpring.UnpauseBlobls();
+            currentMassSpring.GetComponent<MeshRenderer>().enabled = false;
             blobl = null;
         }
-        if (blobl != null && blobl.GetComponent<Point>().stickToWall) {
+        if (blobl != null && blobl.GetComponent<Point>().stickToWall)
+        {
             if (Input.GetKeyDown("s"))
             {
-                if(blobl.GetComponent<Point>().state == Point.StickyState.None)
+                if (blobl.GetComponent<Point>().state == Point.StickyState.None)
                 {
-                    currentMassSpring.SetStickyState(blobl,Point.StickyState.Wall);
+                    currentMassSpring.SetStickyState(blobl, Point.StickyState.Wall);
                 }
-                else if(blobl.GetComponent<Point>().state == Point.StickyState.Wall)
+                else if (blobl.GetComponent<Point>().state == Point.StickyState.Wall)
                 {
-                    currentMassSpring.SetStickyState(blobl,Point.StickyState.None);
-                    blobl.transform.parent.GetComponent<MassSpring>().SetStickyState(blobl,Point.StickyState.None);
+                    currentMassSpring.SetStickyState(blobl, Point.StickyState.None);
+                    blobl.transform.parent.GetComponent<MassSpring>().SetStickyState(blobl, Point.StickyState.None);
 
                 }
             }
         }
+        if(currentMassSpring!=null){
+        }
         CheckForMerge();
-        if (currentMassSpring != null && Input.GetKey("a")){
-            outerBlobl = currentMassSpring.getOuterBlobl(true);
-            currentMassSpring.MoveBlobl(outerBlobl, new Vector3(outerBlobl.GetComponent<Point>().rb.transform.position.x-movingDistance,outerBlobl.GetComponent<Point>().rb.transform.position.y,0),movingSpeed);
-            currentMassSpring.UnpauseBlobls();
+        CheckForSplit();
+        CheckForRelease();
+        Movement();
+    }
 
+    void Movement()
+    {
+        if (currentMassSpring == null)
+            return;
+
+        currentMassSpring.CalcCom();
+
+        if (Input.GetKey("a"))
+        {
+            for (int i = 0; i < currentMassSpring.points.Count; i++)
+            {
+                Vector3 tmpForce = new Vector3();
+                if (currentMassSpring.points.Count < 4)
+                {
+                    float diffX = currentMassSpring.com.x - currentMassSpring.points[i].transform.position.x;
+                    float diffZ = currentMassSpring.com.y - currentMassSpring.points[i].transform.position.y;
+                    float hypotenuse = Mathf.Sqrt(diffX * diffX + diffZ * diffZ);
+                    tmpForce = new Vector3(-diffZ / hypotenuse, diffX / hypotenuse, 0f) * 75f; 
+                    currentMassSpring.points[i].rb.AddForce(-tmpForce);
+                }
+                if (currentMassSpring.points[i].transform.position.x <= currentMassSpring.com.x)
+                    currentMassSpring.points[i].rb.AddForce(new Vector3(-movementForce.x, movementForce.y, 0)); //new Vector3(-movementForce.x, movementForce.y, 0));
+            }
         }
-        else if(outerBlobl != null && currentMassSpring != null && Input.GetKeyUp("a")){
-        }
-        if (currentMassSpring != null && Input.GetKey("d")){
-            outerBlobl = currentMassSpring.getOuterBlobl(false);
-            currentMassSpring.MoveBlobl(outerBlobl, new Vector3(outerBlobl.GetComponent<Point>().rb.transform.position.x+movingDistance,outerBlobl.GetComponent<Point>().rb.transform.position.y,0),movingSpeed);
-            currentMassSpring.UnpauseBlobls();
-        }
-        else if(outerBlobl != null && currentMassSpring != null && Input.GetKeyUp("d")){
-                
+        if (Input.GetKey("d"))
+        {
+            for (int i = 0; i < currentMassSpring.points.Count; i++)
+            {
+                Vector3 tmpForce = new Vector3();
+                if (currentMassSpring.points.Count < 4)
+                {
+                    float diffX = currentMassSpring.com.x - currentMassSpring.points[i].transform.position.x;
+                    float diffZ = currentMassSpring.com.y - currentMassSpring.points[i].transform.position.y;
+                    float hypotenuse = Mathf.Sqrt(diffX * diffX + diffZ * diffZ);
+                    tmpForce = new Vector3(-diffZ / hypotenuse, diffX / hypotenuse, 0f) * 75f;
+                    currentMassSpring.points[i].rb.AddForce(tmpForce);
+                }
+                if (currentMassSpring.points[i].transform.position.x >= currentMassSpring.com.x)                    
+                    currentMassSpring.points[i].rb.AddForce( new Vector3(movementForce.x, movementForce.y, 0)); //new Vector3(-movementForce.x, movementForce.y, 0));
+            }
         }
     }
 
@@ -91,9 +126,25 @@ public class BlobMovement : MonoBehaviour
                     if (k >= 0 && k != i)
                     {
                         BlobBL.instance.Merge(i, k);
+                        return;
                     }
                 }
             }
+        }
+    }
+    void CheckForRelease()
+    {
+        if (Input.GetKeyDown("r"))
+        {
+            currentMassSpring.UnstickyBlobls();
+        }
+    }
+    void CheckForSplit()
+    {
+        if (Input.GetKeyDown("w"))
+        {
+            if (currentMassSpring != null)
+                currentMassSpring.Split();
         }
     }
 }

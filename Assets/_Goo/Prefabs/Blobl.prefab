@@ -242,7 +242,8 @@ MonoBehaviour:
   unmovable: 0
   lockZAxis: 1
   rb: {fileID: 0}
-  StickToWall: 0
+  stickToWall: 0
+  stickToBlobl: 0
 --- !u!135 &135250823530183666
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -253,7 +254,7 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1.5
+  m_Radius: 2
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!198 &198372696469870052
 ParticleSystem:

@@ -21,6 +21,8 @@ public class MassSpring : MonoBehaviour
     public List<Point> points;
     public int indexBL;
     public Vector3 com;
+    public float SplitStrength;
+    public float yRatio;
     public float maxMoveDistance;
 
     public const float FLT_EPSILON = 0.000001f;
@@ -28,7 +30,8 @@ public class MassSpring : MonoBehaviour
     private List<List<Spring>> springs;
     private Vector3 externalForce;
     private float forceDuration;
-
+    private Vector3 forceDir;
+    private Quaternion colorRot;
     private List<Point> sticky;
 
     // Use this for initialization
@@ -40,6 +43,7 @@ public class MassSpring : MonoBehaviour
         springs = new List<List<Spring>>();
         forceDuration = 0;
         com = new Vector3();
+        colorRot = Quaternion.identity;
     }
 
     // force calculation + integration
@@ -79,9 +83,32 @@ public class MassSpring : MonoBehaviour
             newBlob.GetComponent<MassSpring>().AddBlobl(points[i].transform);
             this.RemoveBlobl(points[i]);
         }
-        externalForce = new Vector3(100, 100, 0);
+        externalForce = forceDir * SplitStrength;
+        externalForce.y *= yRatio;
         externalForces = true;
-        forceDuration = 0.75f;
+        forceDuration = 1.0f;
+        /*
+        float rnd = Random.Range(-90f, 0f);
+        float rnd2 = Random.Range(0f, 90f);
+        Quaternion colorRot_new = Quaternion.Euler(0f, rnd, rnd2);
+        Quaternion colorRot_old = Quaternion.Euler(0f, -colorRot.eulerAngles.y, -colorRot.eulerAngles.z);
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            for (int j = 0; j < transform.GetChild(i).childCount; j++)
+            {
+                for (int k = 0; k < transform.GetChild(i).GetChild(j).childCount; k++)
+                {
+                    ParticleSystem gm = transform.GetChild(i).GetChild(j).GetChild(k).GetComponent<ParticleSystem>();
+                    Color c = gm.startColor;
+                    Vector4 v = new Vector4(c.r, c.g, c.b, c.a);
+                    v = colorRot_new * (colorRot) * v;
+                    v.w = c.a;
+                    c = v;
+                    gm.startColor = c;
+                }
+            }
+        }
+        colorRot = colorRot_new*/
         OnSplit(newBlob.GetComponent<MassSpring>());
     }
 
@@ -97,18 +124,28 @@ public class MassSpring : MonoBehaviour
             else
                 idx = i;
         }
+        CalcCom(idx);
+        if (Vector3.Distance(com, targetPosition) < maxMoveDistance)
+            points[idx].transform.position = Vector3.MoveTowards(points[idx].transform.position, targetPosition, speed * Time.deltaTime);
+        else
+            points[idx].transform.position = Vector3.MoveTowards(points[idx].transform.position, com + (targetPosition - com).normalized * maxMoveDistance, speed * Time.deltaTime);
+        MakePolygon(blobl);
+        forceDir = (targetPosition - com).normalized;
+    }
+
+    public void CalcCom(int idx = -1)
+    {
         com = Vector3.zero;
         for (int i = 0; i < points.Count; i++)
         {
-            if(i!=idx)
+            if (idx == -1 || i != idx)
                 com += points[i].rb.position;
         }
-        com /= (points.Count - 1);
-
-        if (Vector3.Distance(com, targetPosition) < maxMoveDistance)
-            points[idx].transform.position = Vector3.MoveTowards(points[idx].transform.position,targetPosition, speed*Time.deltaTime);
+        if (idx != -1)
+            com /= (points.Count - 1);
         else
-            points[idx].transform.position = Vector3.MoveTowards(points[idx].transform.position, com + (targetPosition - com).normalized * maxMoveDistance, speed*Time.deltaTime);
+            com /= (points.Count);
+
     }
 
     // unpause static blobls
@@ -119,14 +156,19 @@ public class MassSpring : MonoBehaviour
             points[i].unmovable = false;
         }
     }
+    public void UnstickyBlobls()
+    {
+        for (int i = 0; i < points.Count; i++)
+        {
+            points[i].state = Point.StickyState.None;
+        }
+    }
 
     // called when blobl should be stuck to or removed from wall 
     public void SetStickyState(GameObject blobl, Point.StickyState state)
     {
-
         if (state == Point.StickyState.Wall)
         {
-
             if (sticky.Count < 2)
             {
                 sticky.Add(blobl.GetComponent<Point>());
@@ -160,18 +202,32 @@ public class MassSpring : MonoBehaviour
                 sticky.RemoveAt(index);
             }
         }
-        else if(state == Point.StickyState.Blobls)
-        {
-
-        }
     }
 
     public void Merge(MassSpring massSpring)
     {
+        /*Quaternion colorRot_old = Quaternion.Euler(0f, -colorRot.eulerAngles.y, -colorRot.eulerAngles.z);
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            for (int j = 0; j < transform.GetChild(i).childCount; j++)
+            {
+                for (int k = 0; k < transform.GetChild(i).GetChild(j).childCount; k++)
+                {
+                    ParticleSystem gm = transform.GetChild(i).GetChild(j).GetChild(k).GetComponent<ParticleSystem>();
+                    Color c = gm.startColor;
+                    Vector4 v = new Vector4(c.r, c.g, c.b, c.a);
+                    v = colorRot * v;
+                    v.w = c.a;
+                    c = v;
+                    gm.startColor = c;
+                }
+            }
+        }
+        colorRot = Quaternion.identity;*/
         for (int i = 0; i < massSpring.points.Count; i++)
         {
             this.AddBlobl(massSpring.points[i].transform, this.transform);
-        }
+        }        
         Destroy(massSpring.gameObject);
     }
 
@@ -255,7 +311,8 @@ public class MassSpring : MonoBehaviour
             points[i].force += (externalForce * points[i].mass);
         }
     }
-    public void ApplyExternalForceOne(GameObject blobl, Vector3 force){
+    public void ApplyExternalForceOne(GameObject blobl, Vector3 force)
+    {
         blobl.GetComponent<Point>().force += (force * blobl.GetComponent<Point>().mass);
     }
 
@@ -281,29 +338,111 @@ public class MassSpring : MonoBehaviour
                 externalForces = false;
         }
     }
-    public GameObject getOuterBlobl(bool Left){
+    public GameObject getOuterBlobl(bool Left)
+    {
         Point result = null;
 
-        if(Left){
-            foreach (Point p in points){
-                if(result==null){
+        if (Left)
+        {
+            foreach (Point p in points)
+            {
+                if (result == null)
+                {
                     result = p;
                 }
-                else if(p.rb.transform.position.x < result.rb.transform.position.x){
+                else if (p.rb.transform.position.x < result.rb.transform.position.x)
+                {
                     result = p;
                 }
-            }  
+            }
         }
-        else{
-            foreach (Point p in points){
-                if(result==null){
+        else
+        {
+            foreach (Point p in points)
+            {
+                if (result == null)
+                {
                     result = p;
                 }
-                else if(p.rb.transform.position.x > result.rb.transform.position.x){
+                else if (p.rb.transform.position.x > result.rb.transform.position.x)
+                {
                     result = p;
                 }
-            }  
+            }
         }
         return result.transform.gameObject;
+    }
+
+    Vector3[] getVertices()
+    {
+        Vector3[] vertizes = new Vector3[points.Count];
+        for (int i = 0; i < points.Count; i++)
+        {
+            vertizes[i] = points[i].transform.position;
+        }
+        return vertizes;
+    }
+    Vector3[] findVertices(GameObject blobl)
+    {
+        Point closest = GetClosestBobl(blobl, points);
+        int index = points.IndexOf(closest);
+        points.RemoveAt(index);
+        Point secClosest = GetClosestBobl(blobl, points);
+        points.Insert(index, closest);
+        Vector3[] result = new Vector3[3];
+        result[0] = closest.transform.position - transform.position;
+        result[1] = secClosest.transform.position - transform.position;
+        result[2] = blobl.GetComponent<Point>().transform.position - transform.position;
+        return result;
+    }
+    public void MakePolygon(GameObject blobl)
+    {
+        Vector3[] vertices3D = findVertices(blobl);
+        // Create the mesh
+        Mesh msh = new Mesh();
+        msh.vertices = vertices3D;
+        int[] vertices = new int[6];
+
+        vertices[0] = 0;
+        vertices[1] = 1;
+        vertices[2] = 2;
+        vertices[3] = 0;
+        vertices[4] = 2;
+        vertices[5] = 1;
+        msh.triangles = vertices;
+        msh.RecalculateNormals();
+        msh.RecalculateBounds();
+        msh.MarkDynamic();
+        
+        // Set up game object with mesh;
+        if (gameObject.GetComponent<MeshRenderer>() == null)
+        {
+            gameObject.AddComponent(typeof(MeshRenderer));
+        }
+        if (gameObject.GetComponent<MeshFilter>() == null)
+            gameObject.AddComponent(typeof(MeshFilter));
+        MeshFilter filter = gameObject.GetComponent<MeshFilter>();
+        filter.mesh = msh;
+    }
+    Point GetClosestBobl(GameObject blobl, List<Point> points)
+    {
+        Point tMin = null;
+        float minDist = Mathf.Infinity;
+        Point self = blobl.GetComponent<Point>();
+        Vector3 currentPos = blobl.GetComponent<Point>().transform.position;
+        foreach (Point t in points)
+        {
+            if (self == t)
+            {
+                continue;
+            }
+            float dist = Vector3.Distance(t.transform.position, currentPos);
+            if (dist < minDist)
+            {
+                tMin = t;
+                minDist = dist;
+            }
+        }
+        return tMin;
     }
 }

@@ -23,6 +23,7 @@ public class Point : MonoBehaviour
     public int stickToBlobl;
     private Vector3 tempPos;
     private Vector3 tempVel;
+    private Vector3 unMovVel;
 
     // Use this for initialization
     void Awake()
@@ -33,13 +34,22 @@ public class Point : MonoBehaviour
         if (mass == 0)
             throw new System.InvalidOperationException("Mass has to be greater than 0!");
         stickToBlobl = -1;
+        unMovVel = new Vector3();
     }
 
     //WallStick Possible?
 
     private void OnTriggerEnter(Collider collision)
     {
-        stickToWall = true;
+        if (collision.gameObject.layer == 9)
+            Destroy(collision.gameObject);
+        else if (collision.gameObject.layer == 10)
+        {
+            transform.parent.GetComponent<MassSpring>().AddBlobl(collision.gameObject.transform);
+            Destroy(collision.gameObject);
+        }
+        else
+            stickToWall = true;
     }
 
     private void OnTriggerExit(Collider collision)
@@ -51,35 +61,38 @@ public class Point : MonoBehaviour
 
     private void FixedUpdate()
     {
+        stickToBlobl = -1;
         for (int i = 0; i < BlobBL.instance.arrayCount; i++)
         {
             MassSpring ms = transform.parent.GetComponent<MassSpring>();
             if (i != ms.indexBL)
             {
-                for (int j = 0; j < ms.points.Count; j++)
+                for (int j = 0; j < BlobBL.instance.massSprings[i].points.Count; j++)
                 {
-                    if (Vector3.Distance(ms.points[j].rb.position, this.rb.position) < GetComponent<SphereCollider>().radius * 1.5f)
+                    if (Vector3.Distance(BlobBL.instance.massSprings[i].points[j].transform.position, this.transform.position) < GetComponent<SphereCollider>().radius * 2.5f)
                     {
-                        stickToBlobl = i;                
-                    }
-                    else
-                    {
-                        stickToBlobl = -1;
+                        stickToBlobl = i;
                     }
                 }
             }
         }
     }
-
-    //=======================
-
+    
     public void MidpointAdvect_1()
     {
+        if (unMovVel.z < 5)
+            rb.velocity = unMovVel;
         if (state == StickyState.Wall || unmovable)
         {
-            rb.velocity = Vector3.zero;
-            rb.position = new Vector3(rb.position.x, rb.position.y, 0f);
+            if (rb.velocity.z < 5)
+                unMovVel = rb.velocity;
+            rb.velocity = new Vector3(0,0,10);
+            rb.MovePosition(new Vector3(rb.position.x, rb.position.y, 0f));
             return;
+        }
+        else
+        {
+            unMovVel.z = 10;
         }
         // calculate posAfterHalfStep = x(t) + h/2 * v(t, x(t))
         Vector3 posAfterHalfStep = rb.position + (Time.fixedDeltaTime / 2 * rb.velocity);
@@ -93,20 +106,25 @@ public class Point : MonoBehaviour
         tempVel = rb.velocity;
 
         //	set current pos and vel to temporary values for calculation of forces
-        rb.position = posAfterHalfStep;
+        rb.MovePosition(posAfterHalfStep);
         rb.velocity = velAfterHalfStep;
     }
 
     public void MidpointAdvect_2()
     {
+        if (unMovVel.z < 5)
+            rb.velocity = unMovVel;
         if (state == StickyState.Wall || unmovable)
         {
-            rb.velocity = Vector3.zero;
-            rb.position = new Vector3(rb.position.x, rb.position.y, 0f);
+            if (rb.velocity.z < 5)
+                unMovVel = rb.velocity;
+            rb.velocity = new Vector3(0, 0, 10);
+            rb.MovePosition(new Vector3(rb.position.x, rb.position.y, 0f));
             return;
         }
         else
         {
+            unMovVel.z = 10;
             if (lockZAxis)
             {
                 tempVel.z = 0;
@@ -116,7 +134,7 @@ public class Point : MonoBehaviour
             //	v(t+h) = v(t) + h*a(t+h/2, xtemp, vtemp)
             rb.velocity = tempVel + Time.fixedDeltaTime * force / mass;
             //	set new pos to stored position x(t+h)
-            rb.position = tempPos;
+            rb.MovePosition(tempPos);
 
             force = Vector3.zero;
         }
