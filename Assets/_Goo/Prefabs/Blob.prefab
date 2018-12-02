@@ -53,7 +53,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damping: 3.5
   mass: 1
-  stiffness: 50
+  stiffness: 200
   initalLength: 4
   prefabBlobl: {fileID: 1626773187584268, guid: 7017ec90fdd63ac4ca5cb2abbd13b9b0,
     type: 2}
@@ -66,4 +66,6 @@ MonoBehaviour:
   - {fileID: 0}
   indexBL: 0
   com: {x: 0, y: 0, z: 0}
+  SplitStrength: 150
+  yRatio: 2
   maxMoveDistance: 7
