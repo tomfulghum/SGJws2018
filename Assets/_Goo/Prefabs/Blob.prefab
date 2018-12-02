@@ -51,9 +51,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82de3f408c7be0c449a4f3995063f33b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damping: 3.5
-  mass: 1
-  stiffness: 200
+  damping: 1.5
+  mass: 0.5
+  stiffness: 100
   initalLength: 4
   prefabBlobl: {fileID: 1626773187584268, guid: 7017ec90fdd63ac4ca5cb2abbd13b9b0,
     type: 2}
@@ -66,6 +66,6 @@ MonoBehaviour:
   - {fileID: 0}
   indexBL: 0
   com: {x: 0, y: 0, z: 0}
-  SplitStrength: 150
-  yRatio: 2
-  maxMoveDistance: 7
+  SplitStrength: 200
+  yRatio: 1.5
+  maxMoveDistance: 8

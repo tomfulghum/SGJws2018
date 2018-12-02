@@ -76,8 +76,9 @@ public class Point : MonoBehaviour
             rb.velocity = unMovVel;
         if (state == StickyState.Wall || unmovable)
         {
-            unMovVel = rb.velocity;
-            rb.velocity = Vector3.zero;
+            if (rb.velocity.z < 5)
+                unMovVel = rb.velocity;
+            rb.velocity = new Vector3(0,0,10);
             rb.MovePosition(new Vector3(rb.position.x, rb.position.y, 0f));
             return;
         }
@@ -107,8 +108,9 @@ public class Point : MonoBehaviour
             rb.velocity = unMovVel;
         if (state == StickyState.Wall || unmovable)
         {
-            unMovVel = rb.velocity;
-            rb.velocity = Vector3.zero;
+            if (rb.velocity.z < 5)
+                unMovVel = rb.velocity;
+            rb.velocity = new Vector3(0, 0, 10);
             rb.MovePosition(new Vector3(rb.position.x, rb.position.y, 0f));
             return;
         }

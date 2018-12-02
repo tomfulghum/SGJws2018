@@ -7,14 +7,11 @@ public class BlobMovement : MonoBehaviour
     private GameObject blobl = null;  //Attachen zu Blobbls
     private GameObject outerBlobl = null;
     public Vector3 targetPos;
-    public float movingDistance = 10;
     private MassSpring currentMassSpring = null;
-
-    public float movingSpeed = 6;
-
+    
     public Vector3 movementForce;
     private Vector3 currMoveTarget;
-
+    private int layermask = 1 << 8;
     public void setCurrentMassSpring(MassSpring ms){
         currentMassSpring = ms;
     }
@@ -26,11 +23,9 @@ public class BlobMovement : MonoBehaviour
 
         if (Input.GetMouseButton(0))
         {
-
-            if (Physics.Raycast(ray, out hit))
-            {
-
-                //transform.position = targetPos;
+            
+            if (Physics.Raycast(ray, out hit, layermask))
+            {                
                 if (hit.transform.gameObject.GetComponent<Point>() != null && blobl == null)
                 {
                     blobl = hit.transform.gameObject;
@@ -41,7 +36,8 @@ public class BlobMovement : MonoBehaviour
             if (blobl != null)
             {
                 targetPos = Camera.main.ScreenToWorldPoint(Input.mousePosition, 0);
-                currentMassSpring.MoveBlobl(blobl, targetPos, movingSpeed);
+                currentMassSpring.MoveBlobl(blobl, targetPos, 10000f);
+                currentMassSpring.GetComponent<MeshRenderer>().enabled = false;
             }
         }
 

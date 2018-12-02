@@ -42,7 +42,6 @@ public class BlobBL : MonoBehaviour
     private void OnEnable()
     {
         MassSpring.OnSplit += AddMassSpring;
-        print("split");
     }
 
     private void AddMassSpring(MassSpring newBlob)
