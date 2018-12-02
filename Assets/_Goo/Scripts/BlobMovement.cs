@@ -119,30 +119,35 @@ public class BlobMovement : MonoBehaviour
         if (Input.GetKey("a"))
         {
             for (int i = 0; i < currentMassSpring.points.Count; i++)
-            {/*
-                float diffX = currentMassSpring.com.x - currentMassSpring.points[i].transform.position.x;
-                float diffZ = currentMassSpring.com.y - currentMassSpring.points[i].transform.position.y;
-                float hypotenuse = Mathf.Sqrt(diffX * diffX + diffZ * diffZ);
-                Vector3 tmpForce = new Vector3(-diffZ / hypotenuse, diffX / hypotenuse, 0f) * 50f;
-                print(tmpForce);*/
+            {
+                Vector3 tmpForce = new Vector3();
+                if (currentMassSpring.points.Count < 4)
+                {
+                    float diffX = currentMassSpring.com.x - currentMassSpring.points[i].transform.position.x;
+                    float diffZ = currentMassSpring.com.y - currentMassSpring.points[i].transform.position.y;
+                    float hypotenuse = Mathf.Sqrt(diffX * diffX + diffZ * diffZ);
+                    tmpForce = new Vector3(-diffZ / hypotenuse, diffX / hypotenuse, 0f) * 50f; 
+                    currentMassSpring.points[i].rb.AddForce(-tmpForce);
+                }
                 if (currentMassSpring.points[i].transform.position.x <= currentMassSpring.com.x)
-                    currentMassSpring.points[i].rb.AddForce( new Vector3(-movementForce.x, movementForce.y, 0)); //new Vector3(-movementForce.x, movementForce.y, 0));
+                    currentMassSpring.points[i].rb.AddForce(new Vector3(-movementForce.x, movementForce.y, 0)); //new Vector3(-movementForce.x, movementForce.y, 0));
             }
         }
         if (Input.GetKey("d"))
         {
             for (int i = 0; i < currentMassSpring.points.Count; i++)
             {
-                if (currentMassSpring.points[i].transform.position.x >= currentMassSpring.com.x)
-                {/*
+                Vector3 tmpForce = new Vector3();
+                if (currentMassSpring.points.Count < 4)
+                {
                     float diffX = currentMassSpring.com.x - currentMassSpring.points[i].transform.position.x;
                     float diffZ = currentMassSpring.com.y - currentMassSpring.points[i].transform.position.y;
                     float hypotenuse = Mathf.Sqrt(diffX * diffX + diffZ * diffZ);
-                    Vector3 tmpForce = new Vector3(diffZ / hypotenuse, -diffX / hypotenuse, 0f) * 50f;*/
-                    
-                    currentMassSpring.points[i].rb.AddForce( new Vector3(movementForce.x, movementForce.y, 0)); //new Vector3(-movementForce.x, movementForce.y, 0));
-                    // currentMassSpring.points[i].rb.AddForce(movementForce);
+                    tmpForce = new Vector3(-diffZ / hypotenuse, diffX / hypotenuse, 0f) * 50f;
+                    currentMassSpring.points[i].rb.AddForce(tmpForce);
                 }
+                if (currentMassSpring.points[i].transform.position.x >= currentMassSpring.com.x)                    
+                    currentMassSpring.points[i].rb.AddForce( new Vector3(movementForce.x, movementForce.y, 0)); //new Vector3(-movementForce.x, movementForce.y, 0));
             }
         }
     }

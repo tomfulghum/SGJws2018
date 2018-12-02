@@ -23,6 +23,7 @@ public class Point : MonoBehaviour
     public int stickToBlobl;
     private Vector3 tempPos;
     private Vector3 tempVel;
+    private Vector3 unMovVel;
 
     // Use this for initialization
     void Awake()
@@ -33,6 +34,7 @@ public class Point : MonoBehaviour
         if (mass == 0)
             throw new System.InvalidOperationException("Mass has to be greater than 0!");
         stickToBlobl = -1;
+        unMovVel = new Vector3();
     }
 
     //WallStick Possible?
@@ -70,11 +72,18 @@ public class Point : MonoBehaviour
     
     public void MidpointAdvect_1()
     {
+        if (unMovVel.z < 5)
+            rb.velocity = unMovVel;
         if (state == StickyState.Wall || unmovable)
         {
+            unMovVel = rb.velocity;
             rb.velocity = Vector3.zero;
             rb.MovePosition(new Vector3(rb.position.x, rb.position.y, 0f));
             return;
+        }
+        else
+        {
+            unMovVel.z = 10;
         }
         // calculate posAfterHalfStep = x(t) + h/2 * v(t, x(t))
         Vector3 posAfterHalfStep = rb.position + (Time.fixedDeltaTime / 2 * rb.velocity);
@@ -94,14 +103,18 @@ public class Point : MonoBehaviour
 
     public void MidpointAdvect_2()
     {
+        if (unMovVel.z < 5)
+            rb.velocity = unMovVel;
         if (state == StickyState.Wall || unmovable)
         {
+            unMovVel = rb.velocity;
             rb.velocity = Vector3.zero;
             rb.MovePosition(new Vector3(rb.position.x, rb.position.y, 0f));
             return;
         }
         else
         {
+            unMovVel.z = 10;
             if (lockZAxis)
             {
                 tempVel.z = 0;

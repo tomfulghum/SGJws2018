@@ -305,6 +305,21 @@ Prefab:
       propertyPath: initalLength
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 114442160831210534, guid: acc605eb80ffd7042a885e86cbfe6731,
+        type: 2}
+      propertyPath: damping
+      value: 3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114442160831210534, guid: acc605eb80ffd7042a885e86cbfe6731,
+        type: 2}
+      propertyPath: SplitStrength
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 114442160831210534, guid: acc605eb80ffd7042a885e86cbfe6731,
+        type: 2}
+      propertyPath: yRatio
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: acc605eb80ffd7042a885e86cbfe6731, type: 2}
   m_IsPrefabAsset: 0
@@ -362,7 +377,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 15
+  orthographic size: 30
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -385,7 +400,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 534669902}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalPosition: {x: 0, y: 1, z: -19.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -472,7 +487,7 @@ MonoBehaviour:
   targetPos: {x: 0, y: 0, z: 0}
   movingDistance: 50
   movingSpeed: 1000
-  movementForce: {x: 100, y: -25, z: 0}
+  movementForce: {x: 200, y: -50, z: 0}
 --- !u!1 &1414674086
 GameObject:
   m_ObjectHideFlags: 0
