@@ -346,9 +346,6 @@ public class MassSpring : MonoBehaviour
         Mesh msh = new Mesh();
         msh.vertices = vertices3D;
         int[] vertices = new int[6];
-        Debug.Log(vertices3D[0]);
-        Debug.Log(vertices3D[1]);
-        Debug.Log(vertices3D[2]);
 
         vertices[0]=0;
         vertices[1]=1;

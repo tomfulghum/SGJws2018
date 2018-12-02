@@ -42,6 +42,7 @@ public class BlobBL : MonoBehaviour
     private void OnEnable()
     {
         MassSpring.OnSplit += AddMassSpring;
+        print("split");
     }
 
     private void AddMassSpring(MassSpring newBlob)
@@ -58,7 +59,7 @@ public class BlobBL : MonoBehaviour
             massSprings[toRemove.indexBL].indexBL = toRemove.indexBL;
     }
 
-    public void Merge(int idx1,int idx2)
+    public void Merge(int idx1, int idx2)
     {
         if (arrayCount > 1)
         {

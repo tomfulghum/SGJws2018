@@ -61,7 +61,7 @@ public class Point : MonoBehaviour
             {
                 for (int j = 0; j < BlobBL.instance.massSprings[i].points.Count; j++)
                 {
-                    if (Vector3.Distance(BlobBL.instance.massSprings[i].points[j].rb.position, this.rb.position) < GetComponent<SphereCollider>().radius * 2.5f)
+                    if (Vector3.Distance(BlobBL.instance.massSprings[i].points[j].transform.position, this.transform.position) < GetComponent<SphereCollider>().radius * 2.5f)
                     {
                         stickToBlobl = i;
                     }
