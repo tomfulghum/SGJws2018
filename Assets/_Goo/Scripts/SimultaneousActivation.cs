@@ -24,7 +24,6 @@ public class SimultaneousActivation : MonoBehaviour
     {
         for (int i = 0; i < flag.Length; i++)
         {
-            flag[i] = false;
             if (simultaneous[i] == gm)
                 flag[i] = true;
         }
@@ -34,7 +33,9 @@ public class SimultaneousActivation : MonoBehaviour
     {
         for (int i = 0; i < flag.Length; i++)
             if (!flag[i])
+            {
                 return;
+            }
         GameObject.Instantiate(endScreen);
         Destroy(this.gameObject);
     }
